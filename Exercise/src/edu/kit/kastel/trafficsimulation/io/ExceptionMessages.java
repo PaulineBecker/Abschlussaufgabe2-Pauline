@@ -1,8 +1,10 @@
-package kit.edu.informatik.userinterface;
+package edu.kit.kastel.trafficsimulation.io;
 
 /**
+ * Exception Messages enum that contains all error messages when an exceptions is thrown.
+ *
  * @author uyxib
- * @verion 1.0
+ * @version 1.0
  */
 public enum ExceptionMessages {
 

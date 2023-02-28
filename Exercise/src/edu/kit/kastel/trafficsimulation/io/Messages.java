@@ -1,8 +1,10 @@
-package kit.edu.informatik.userinterface;
+package edu.kit.kastel.trafficsimulation.io;
 
 /**
+ * Messages enum that contains all input/output constants.
+ *
  * @author uyxib
- * @verion 1.0
+ * @version 1.0
  */
 public enum Messages {
     /**

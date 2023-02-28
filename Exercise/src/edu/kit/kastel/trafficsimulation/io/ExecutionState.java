@@ -1,8 +1,9 @@
-package kit.edu.informatik.userinterface;
+package edu.kit.kastel.trafficsimulation.io;
 
 /**
  * The different execution states the application can go through.
  * copied from Thomas Weber and then modified
+ *
  * @author uyxib
  * @version 1.0
  */

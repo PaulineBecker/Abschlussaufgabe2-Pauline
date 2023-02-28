@@ -1,14 +1,17 @@
-package kit.edu.informatik.userinterface;
+package edu.kit.kastel.trafficsimulation.io;
 
-import kit.edu.informatik.SimulationException;
+import edu.kit.kastel.trafficsimulation.exception.SimulationException;
 import kit.edu.informatik.model.StreetNetwork;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * List of available commands with their command line interaction expressions.
+ * Copied from Thomas Weber and Moritz Gstuer and then modified from
+ *
  * @author uyxib
- * @verion 1.0
+ * @version 1.0
  */
 public enum Commands {
 

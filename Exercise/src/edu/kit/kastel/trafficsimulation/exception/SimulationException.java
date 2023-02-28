@@ -1,7 +1,7 @@
-package kit.edu.informatik;
+package edu.kit.kastel.trafficsimulation.exception;
 
 /**
- * Encapsulates an exception that may occur during a Street Network Simulation
+ * Encapsulates an exception that may occur during a Traffic Simulation
  *
  * @author uyxib
  * @version 1.0

@@ -1,8 +1,8 @@
-package kit.edu.informatik.userinterface;
+package edu.kit.kastel.trafficsimulation.io;
 
 /**
  * @author uyxib
- * @verion 1.0
+ * @version 1.0
  */
 public class Shell {
 }
