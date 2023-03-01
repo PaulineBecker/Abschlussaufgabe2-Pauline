@@ -2,7 +2,7 @@ package edu.kit.kastel.trafficsimulation.model.road;
 
 import edu.kit.kastel.trafficsimulation.model.Car;
 import edu.kit.kastel.trafficsimulation.model.Updatable;
-import edu.kit.kastel.trafficsimulation.model.road.Road;
+
 
 import java.util.LinkedList;
 
@@ -11,8 +11,11 @@ import java.util.LinkedList;
  * @version 1.0
  */
 public class Street implements Road, Updatable {
+    /**
+     * save distance between cars
+     */
 
-    private static final int SAVE_DISTANCE = 10;
+    public static final int SAVE_DISTANCE = 10;
     private int startNode;
     private int endNode;
     private int length;
@@ -41,5 +44,49 @@ public class Street implements Road, Updatable {
     @Override
     public void update() {
 
+    }
+
+    public int getStartNode() {
+        return startNode;
+    }
+
+    public void setStartNode(int startNode) {
+        this.startNode = startNode;
+    }
+
+    public int getEndNode() {
+        return endNode;
+    }
+
+    public void setEndNode(int endNode) {
+        this.endNode = endNode;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public int getSpeedLimit() {
+        return speedLimit;
+    }
+
+    public void setSpeedLimit(int speedLimit) {
+        this.speedLimit = speedLimit;
+    }
+
+    public int getStreetID() {
+        return streetID;
+    }
+
+    public LinkedList<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(LinkedList<Car> cars) {
+        this.cars = cars;
     }
 }

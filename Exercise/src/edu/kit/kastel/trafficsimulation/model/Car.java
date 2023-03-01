@@ -13,22 +13,25 @@ import edu.kit.kastel.trafficsimulation.model.node.Node;
  */
 public class Car implements Updatable {
     private static final int START_SPEED = 0;
+    private static final int START_DESIRED_STREET = 0;
 
     private int acceleration;
     private int desiredStreet;
+    private int preferedSpeed;
     private int currentSpeed;
     private int currentStreet;
     private int carID;
     private int currentPosition;
     private boolean isMoved;
 
-    public Car(int acceleration, int desiredStreet, int currentStreet, int carID, int currentPosition) {
+    public Car(int carID, int currentStreet, int preferedSpeed, int acceleration) {
         this.acceleration = acceleration;
-        this.desiredStreet = desiredStreet;
+        this.desiredStreet = START_DESIRED_STREET;
         this.currentSpeed = START_SPEED;
         this.currentStreet = currentStreet;
         this.carID = carID;
-        this.currentPosition = currentPosition;
+        this.preferedSpeed = preferedSpeed;
+        this.currentPosition = -1; //TODO
         this.isMoved = false;
     }
 

@@ -4,6 +4,7 @@ import edu.kit.kastel.trafficsimulation.exception.SimulationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,8 +41,8 @@ public class TextParsing {
         }
     }
 
-    public List<Integer[]> validateCrossings() {
-        List<Integer[]> crossingParameters = new ArrayList<>();
+    public List<int[]> validateCrossings() {
+        List<int[]> crossingParameters = new ArrayList<>();
         try {
             crossingInput = simulationFileLoader.loadCrossings();
         } catch (IOException exception) {
@@ -53,17 +54,17 @@ public class TextParsing {
             crossingParameter[1] = removeLastChar(crossingParameter[1]);
             crossingParameters.add(stringArraytoInt(crossingParameter));
         }
+        sortNodes(crossingParameters);
         return crossingParameters;
     }
 
-    public List<Integer[]> validateCars() {
-        List<Integer[]> carParameters = new ArrayList<>();
+    public List<int[]> validateCars() {
+        List<int[]> carParameters = new ArrayList<>();
         try {
             carInput = simulationFileLoader.loadCars();
         } catch (IOException exception) {
             throw new SimulationException(exception.getMessage());
         }
-        validateEmptyFile(carInput, CAR);
         validatePatternMatch(carInput, CAR_REGEX, CAR);
         for (String inputRow : carInput) {
             String[] carParameter = getSplittedString(inputRow, KOMMA);
@@ -72,8 +73,8 @@ public class TextParsing {
         return carParameters;
     }
 
-    public List<Integer[]> validateStreets() {
-        List<Integer[]> streetParameters = new ArrayList<>();
+    public List<int[]> validateStreets() {
+        List<int[]> streetParameters = new ArrayList<>();
         try {
             streetInput = simulationFileLoader.loadStreets();
         } catch (IOException exception) {
@@ -90,7 +91,7 @@ public class TextParsing {
 
     private void validatePatternMatch(List<String> inputList, String regex, String file) {
         for (String string : inputList) {
-            if (!string.equals(regex)) {
+            if (!string.matches(regex)) {
                 throw new SimulationException(ExceptionMessages.NO_VALID_STRING_LINE.format(file, file));
             }
         }
@@ -100,8 +101,8 @@ public class TextParsing {
         return input.split(split);
     }
 
-    private Integer[] stringArraytoInt(String[] stringArray) {
-        Integer[] intArray = new Integer[stringArray.length];
+    private int[] stringArraytoInt(String[] stringArray) {
+        int[] intArray = new int[stringArray.length];
         for (int i = 0; i < stringArray.length; i++) {
             try {
                 intArray[i] = Integer.parseInt(stringArray[i]);
@@ -122,9 +123,8 @@ public class TextParsing {
         }
     }
 
-    public static String[] extractNumbers(String input) {
+    private static String[] extractNumbers(String input) {
         String[] output = new String[5];
-
         Pattern pattern = Pattern.compile(STREET_SPLIT);
         Matcher matcher = pattern.matcher(input);
 
@@ -134,6 +134,16 @@ public class TextParsing {
             i++;
         }
         return output;
+    }
+
+    private void sortNodes(List<int[]> crossingParameters) {
+        crossingParameters.sort(new Comparator<>() {
+            private static final int INDEX = 0;
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[INDEX], o2[INDEX]);
+            }
+        });
     }
 
 }

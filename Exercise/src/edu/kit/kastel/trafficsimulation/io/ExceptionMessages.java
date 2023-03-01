@@ -45,6 +45,14 @@ public enum ExceptionMessages {
      */
     FILE_IS_EMPTY("Error: This %s file is empty."),
     /**
+     * Error message if a file contains invalid strings
+     */
+    INVALID_NUMBER_OF_STREETS("Error: The %d. node has an invalid number of streets."),
+    /**
+     * Error message if a more cars try to be on one street than possible
+     */
+    INVALID_NUMBER_OF_CARS_ON_STREET("Error: Street %d cannot have more than %d cars."),
+    /**
      * Error message if the command is not found
      */
     COMMAND_NOT_FOUND("Error: Command not found. Please enter a valid command.");
