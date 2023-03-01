@@ -6,7 +6,7 @@ package edu.kit.kastel.trafficsimulation.exception;
  * @author uyxib
  * @version 1.0
  */
-public class SimulationException extends Exception {
+public class SimulationException extends IllegalArgumentException {
 
     private static final long serialVersionUID = 1L;
 

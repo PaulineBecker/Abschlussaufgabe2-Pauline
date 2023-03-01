@@ -6,5 +6,5 @@ package edu.kit.kastel.trafficsimulation.model;
  */
 public interface Updatable {
 
-    
+    public void update();
 }

@@ -1,8 +1,48 @@
 package edu.kit.kastel.trafficsimulation.io;
 
+import edu.kit.kastel.trafficsimulation.exception.SimulationException;
+import edu.kit.kastel.trafficsimulation.model.Simulation;
+import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
+
+import java.util.Scanner;
+
 /**
  * @author uyxib
  * @version 1.0
  */
 public class Shell {
+
+    public void simulate() {
+
+        final StreetNetwork streetNetwork = new StreetNetwork();
+        final Simulation simulation = new Simulation(streetNetwork);
+        Scanner inputScanner = new Scanner(System.in);
+        while (simulation.isReading()) {
+            final String input = inputScanner.nextLine();
+            try {
+                print(input, simulation);
+            } catch (final SimulationException exception) {
+                System.err.println(exception.getMessage());
+            }
+        }
+
+        //TODO after reading sucessfully Execution State to isActive
+
+        while (simulation.isActive()) {
+            final String input = inputScanner.nextLine();
+            try {
+                print(input, simulation);
+            } catch (final SimulationException exception) {
+                System.err.println(exception.getMessage());
+            }
+        }
+        inputScanner.close();
+    }
+
+    private void print(String input, Simulation simulation) {
+        final String output = Commands.executeCommand(input, simulation);
+        if (output != null) {
+            System.out.println(output);
+        }
+    }
 }

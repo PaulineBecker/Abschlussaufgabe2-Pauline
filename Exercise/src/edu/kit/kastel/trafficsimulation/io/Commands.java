@@ -1,7 +1,8 @@
 package edu.kit.kastel.trafficsimulation.io;
 
 import edu.kit.kastel.trafficsimulation.exception.SimulationException;
-import kit.edu.informatik.model.StreetNetwork;
+import edu.kit.kastel.trafficsimulation.model.Simulation;
+import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,14 +21,14 @@ public enum Commands {
      */
     CAR_POSITION("^position " + Commands.ALL_INPUT) {
         @Override
-        public String execute(String input, StreetNetwork streetNetwork) {
+        public String execute(String input, Simulation simulation) {
+            Commands.validateActiveSimulation(simulation);
             Commands.validateSpaceAtEnd(input);
             String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
             Commands.validateArgumentsLength(inputList);
-            int inputNumber = Commands.validateNumeric(inputList[0]);
-            Commands.legalNumber(inputNumber);
-            //TODO input Number an StreetNetwork übergeben
-            return null;
+            int inputID = Commands.validateNumeric(inputList[0]);
+            Commands.legalNumber(inputID);
+            return simulation.showCar(inputID);
         }
     },
 
@@ -36,14 +37,30 @@ public enum Commands {
      */
     SIMULATE("^simulate " + Commands.ALL_INPUT) {
         @Override
-        public String execute(String input, StreetNetwork streetNetwork) {
+        public String execute(String input, Simulation simulation) {
+            Commands.validateActiveSimulation(simulation);
             Commands.validateSpaceAtEnd(input);
             String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
             Commands.validateArgumentsLength(inputList);
             int inputNumber = Commands.validateNumeric(inputList[0]);
             Commands.legalNumber(inputNumber);
-            //TODO input Number an StreetNetwork übergeben
+            //TODO input Number an StreetNetwork übergeben wie viele Simulationsschritte gemacht werden sollen
             return null;
+        }
+    },
+
+    /**
+     * command to read in the given files
+     */
+    LOAD("^load " + Commands.ALL_INPUT) {
+
+        @Override
+        public String execute(String input, Simulation simulation) {
+            Commands.validateSpaceAtEnd(input);
+            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
+            Commands.validateArgumentsLength(inputList);
+            String filePath = inputList[0];
+            return simulation.readFiles(filePath);
         }
     },
 
@@ -53,8 +70,8 @@ public enum Commands {
     QUIT("quit") {
 
         @Override
-        public String execute(String input, StreetNetwork streetNetwork) {
-            //TODO quit ausführen
+        public String execute(String input, Simulation simulation) {
+            simulation.quit();
             return null;
         }
     };
@@ -97,30 +114,30 @@ public enum Commands {
      * this input performed on the given playlist.
      *
      * @param input the line of input
-     * @param streetNetwork the {@link StreetNetwork} the command is executed on
+     * @param simulation the {@link StreetNetwork} the command is executed on
      *
      * @return the result of the command execution, may contain error messages or be
      *         null if there is no output
      */
-    public static String executeCommand(final String input, final StreetNetwork streetNetwork) {
+    public static String executeCommand(final String input, final Simulation simulation) {
         for (final Commands command : Commands.values()) {
             final Matcher matcher = command.pattern.matcher(input);
             if (matcher.matches()) {
-                return command.execute(input, streetNetwork);
+                return command.execute(input, simulation);
             }
         }
-        return ExceptionMessages.COMMAND_NOT_FOUND.name();
+        return ExceptionMessages.COMMAND_NOT_FOUND.format();
     }
 
     /**
      * Executes the given input on the given scrabble.
      *
      * @param input     the line of input
-     * @param streetNetwork the game where the command is executed on
+     * @param simulation the game where the command is executed on
      * @return the result of the command execution, may contain error messages or be
      * null if there is no output
      */
-    abstract String execute(String input, StreetNetwork streetNetwork);
+    abstract String execute(String input, Simulation simulation);
 
     private static String replaceAllInput(Commands command, String input) {
         return input.replaceAll(command.uiCommand.replace(ALL_INPUT, EMPTY_STRING), EMPTY_STRING);
@@ -132,7 +149,7 @@ public enum Commands {
 
     private static void legalNumber(int inputNumber) {
         if (inputNumber < 0) {
-            throw new SimulationException(ExceptionMessages.NEGATIVE_COORDINATE.name());
+            throw new SimulationException(ExceptionMessages.NEGATIVE_COORDINATE.format());
         }
     }
 
@@ -145,6 +162,12 @@ public enum Commands {
     private static void validateArgumentsLength(String[] inputList) {
         if (inputList.length != 1) {
             throw new SimulationException(ExceptionMessages.ONE_EXPECTED_ARGUMENTS.format());
+        }
+    }
+
+    private static void validateActiveSimulation(Simulation simulation) {
+        if (!simulation.isActive()) {
+            throw new SimulationException(ExceptionMessages.NO_LOADED_STREET_NETWORK.format());
         }
     }
 

@@ -13,6 +13,10 @@ public enum ExceptionMessages {
      */
     NO_LOADED_STREET_NETWORK("Error: Street network is yet to be loaded."),
     /**
+     * Exception message in case of utility class instantiation.
+     */
+    UTILITY_CLASS_INSTANTIATION("Utility class cannot be instantiated."),
+    /**
      * Error message in case of a player tries to add a space at the end of his / her command
      */
     ILLEGAL_SPACE("Error: Adding a space at the end of your command is illegal."),
@@ -28,6 +32,18 @@ public enum ExceptionMessages {
      * Error message if the seed to shuffle the tiles is not in the range of a long.
      */
     TO_HIGH_NOT_NUMERIC("Error: The %s too high or not numeric to parse to an int."),
+    /**
+     * Error message if the car is not part of the current simulation
+     */
+    CAR_NOT_IN_SIMULATION("Error: This car is not part of the current simulation."),
+    /**
+     * Error message if a file contains invalid strings
+     */
+    NO_VALID_STRING_LINE("Error: This %s file contains invalid %ss"),
+    /**
+     * Error message if a file contains invalid strings
+     */
+    FILE_IS_EMPTY("Error: This %s file is empty."),
     /**
      * Error message if the command is not found
      */

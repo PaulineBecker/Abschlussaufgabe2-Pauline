@@ -16,4 +16,8 @@ public enum ExecutionState {
      * The program is currently running.
      */
     RUNNING,
+    /**
+     * The programm is currently reading
+     */
+    READING,
 }
