@@ -31,8 +31,6 @@ public class StreetNetwork implements Updatable {
     private static final int STREET = 1;
     private static final int PREFERED_SPEED = 2;
     private static final int ACCELERATION = 3;
-
-
     private final List<Street> streets;
     private final List<Car> cars;
     private final List<Node> nodes;
@@ -54,7 +52,9 @@ public class StreetNetwork implements Updatable {
 
     @Override
     public void update() {
-        //TODO update first all Streets then all Cars then crossings (traffic lights)
+        updateStreets();
+        resetAllCarsOnStreets();
+        updateNodes();
     }
 
     public void init() {
@@ -189,6 +189,24 @@ public class StreetNetwork implements Updatable {
             if (!startNodeExists || !endNodeExists) {
                 throw new SimulationException(ExceptionMessages.STREET_WITH_ILLEGAL_NODE.format(street.getStreetID()));
             }
+        }
+    }
+
+    private void updateNodes() {
+        for (Node node : nodes) {
+            node.update();
+        }
+    }
+
+    private void updateStreets() {
+        for (Street street : streets) {
+            street.update();
+        }
+    }
+
+    private void resetAllCarsOnStreets() {
+        for (Street street : streets) {
+            street.resetCarMoves();
         }
     }
 }

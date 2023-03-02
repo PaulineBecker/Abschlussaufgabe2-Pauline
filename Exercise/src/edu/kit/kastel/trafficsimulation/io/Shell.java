@@ -32,8 +32,6 @@ public class Shell {
             }
         }
 
-        //TODO after reading sucessfully Execution State to isActive
-
         while (simulation.isActive()) {
             final String input = inputScanner.nextLine();
             try {

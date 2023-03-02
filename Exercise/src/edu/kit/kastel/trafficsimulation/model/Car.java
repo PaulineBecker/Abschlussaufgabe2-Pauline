@@ -2,6 +2,7 @@ package edu.kit.kastel.trafficsimulation.model;
 
 import edu.kit.kastel.trafficsimulation.io.Messages;
 import edu.kit.kastel.trafficsimulation.model.node.Node;
+import edu.kit.kastel.trafficsimulation.model.road.Street;
 
 /**
  * models a car in the traffic simulation
@@ -23,6 +24,10 @@ public class Car implements Updatable {
     private int currentStreet;
     private int carID;
     private int currentPosition;
+    /**
+     * remaining meters a car can drive after the end of a street. If remaining meters > 0 check if car can cross street
+     */
+    private int remainingMeters;
     private boolean isMoved;
 
     /**
@@ -40,6 +45,7 @@ public class Car implements Updatable {
         this.carID = carID;
         this.preferedSpeed = preferedSpeed;
         this.currentPosition = -1; //TODO
+        this.remainingMeters = 0;
         this.isMoved = false;
     }
 
@@ -53,7 +59,7 @@ public class Car implements Updatable {
     }
 
     /**
-     * Updates the car's desired street.
+     * Updates the car's desired street after the car entered in a new street after a crossing
      */
     @Override
     public void update() {
@@ -71,15 +77,65 @@ public class Car implements Updatable {
         }
     }
 
-    private void accelerate() {
-        //TODO
+    public void accelerate(int speedLimit) {
+        int newSpeed = Math.min((currentSpeed + acceleration), speedLimit);
+        currentSpeed = Math.min(newSpeed, preferedSpeed);
     }
 
     /**
-     * Resets the car's speed in traffic to the starting speed.
+     * Car drives with his currentSpeed if possible. First checks if the distance to the end of the street is long
+     * enough, then checks the distance to the next car and drives as long as possible.
+     * 1. Case: street long enough, distance of car long enough -> car drives with his currentSpeed
+     * 2. Case: street long enough, distance of car too short -> car drives only the distance - save distance
+     * 3. Case: street not long enough, distance of car long enough -> car drives the metersToGo till the end of street
+     * 4. Case: street not long enough, distance of car long -> car drives only the distance - save distance
+     * for case 3 & 4 car stores the remaining Meters and will check later if it can move to another street
+     * additionally after driving sets boolean is moved to true
+     * @param distance distance to the next car in the current street
+     * @param length length of the current street
      */
-    private void resetSpeedInTraffic() {
-        currentSpeed = START_SPEED;
+    public void drive(int distance, int length) {
+        int oldPosition = currentPosition;
+        int metersToGo = length - currentPosition;
+        if (metersToGo >= currentSpeed) {
+            if ((distance == Street.NO_CAR_IN_FRONT) || (distance >= (currentSpeed + Street.SAVE_DISTANCE))) {
+                currentPosition = currentPosition + currentSpeed;
+            } else {
+                currentPosition = currentPosition + (distance - Street.SAVE_DISTANCE);
+            }
+        } else {
+            remainingMeters = currentSpeed - metersToGo;
+            if ((distance == Street.NO_CAR_IN_FRONT) || (distance >= (metersToGo + Street.SAVE_DISTANCE))) {
+                currentPosition = currentPosition + metersToGo;
+            } else {
+                currentPosition = currentPosition + (distance - Street.SAVE_DISTANCE);
+            }
+        }
+        isMoved = true;
+        resetSpeedInTraffic(oldPosition);
+    }
+    /**
+     * Resets the car's is moved attribut to false so in this tick the car hasn't moved so far
+     */
+    public void resetIsMoved() {
+        isMoved = false;
+    }
+
+    public void turn(Street newStreet) {
+        if (newStreet.getCars().getLast().getCurrentPosition() >= 10) {
+            currentPosition = 0;
+            currentStreet = newStreet.getStreetID();
+        }
+    }
+
+    /**
+     * Resets the car's speed in traffic to the starting speed. if there's no traffic method does nothing
+     * @param oldPosition the old position of the car before the tick
+     */
+    private void resetSpeedInTraffic(int oldPosition) {
+        if (oldPosition == currentPosition) { //TODO das reine Abiegen zählt nicht als Bewegung checken
+            currentSpeed = START_SPEED;
+        }
     }
 
     /**

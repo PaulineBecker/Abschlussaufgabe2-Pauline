@@ -40,8 +40,15 @@ public class Simulation implements Executable {
 
     public String readFiles(String filePath) {
         streetNetwork.readFiles(filePath);
-        executionState = ExecutionState.RUNNING;
         streetNetwork.init();
+        executionState = ExecutionState.RUNNING;
+        return Messages.READY.format();
+    }
+
+    public String simulate(int numberOfTicks) {
+        for (int i = 0; i < numberOfTicks; i++) {
+            streetNetwork.update();
+        }
         return Messages.READY.format();
     }
 }

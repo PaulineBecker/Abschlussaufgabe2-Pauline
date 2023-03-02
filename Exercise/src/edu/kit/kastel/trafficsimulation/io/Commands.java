@@ -44,8 +44,7 @@ public enum Commands {
             Commands.validateArgumentsLength(inputList);
             int inputNumber = Commands.validateNumeric(inputList[0]);
             Commands.legalNumber(inputNumber);
-            //TODO input Number an StreetNetwork übergeben wie viele Simulationsschritte gemacht werden sollen
-            return null;
+            return simulation.simulate(inputNumber);
         }
     },
 

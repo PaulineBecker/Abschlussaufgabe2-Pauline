@@ -6,8 +6,7 @@ package edu.kit.kastel.trafficsimulation.model.road;
  */
 public interface Road {
 
-    public void validateDistance();
-    public void fillStreet();
+    public void calculateDistance();
 
 
 }

@@ -10,7 +10,7 @@ package edu.kit.kastel.trafficsimulation.model.node;
 public class Intersection extends Node {
 
     private TrafficLight trafficLight;
-    private int currentGreenStreet;
+    //private int currentGreenStreet;
 
     /**
      * Creates a new Intersection object with the specified node ID and green phase duration.
@@ -18,8 +18,7 @@ public class Intersection extends Node {
      * @param greenPhaseDuration the duration of the green phase for the traffic light
      */
     public Intersection(int nodeID, int greenPhaseDuration) {
-        super(nodeID);
-        currentGreenStreet = START_STREET;
+        super(nodeID, START_STREET);
         trafficLight = new TrafficLight(greenPhaseDuration);
     }
 
@@ -32,6 +31,18 @@ public class Intersection extends Node {
         if (trafficLight.isGreenPhaseOver()) {
             changeCurrentGreenStreet();
         }
+    }
+
+    /**
+     * checks if the given street has green and cars can drive or not
+     * @param streetID the current incoming street of a node
+     * @return true if the current incoming street has green and cars can drive, otherwise, return false
+     */
+    public boolean hasStreetGreen(int streetID) {
+        if (getIncomingStreets().get(streetID).getStreetID() == currentGreenStreet) {
+            return true;
+        }
+        return false;
     }
 
     /**

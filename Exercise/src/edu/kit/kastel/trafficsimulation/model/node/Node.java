@@ -29,16 +29,18 @@ public abstract class Node implements Updatable {
     private int nodeID;
     private List<Street> incomingStreets;
     private List<Street> outgoingStreets;
+    protected int currentGreenStreet;
 
     /**
      * Creates a new Node object with the specified ID and empty lists of incoming and outgoing streets.
      *
      * @param nodeID the ID of the node
      */
-    public Node(int nodeID) {
+    public Node(int nodeID, int START_STREET) {
         this.nodeID = nodeID;
         this.incomingStreets = new ArrayList<>();
         this.outgoingStreets = new ArrayList<>();
+        currentGreenStreet = START_STREET;
     }
 
 
@@ -79,5 +81,13 @@ public abstract class Node implements Updatable {
 
     public List<Street> getOutgoingStreets() {
         return outgoingStreets;
+    }
+
+    public int getCurrentGreenStreet() {
+        return currentGreenStreet;
+    }
+
+    public void setCurrentGreenStreet(int currentGreenStreet) {
+        this.currentGreenStreet = currentGreenStreet;
     }
 }
