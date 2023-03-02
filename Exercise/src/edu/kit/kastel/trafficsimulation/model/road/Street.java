@@ -7,14 +7,18 @@ import edu.kit.kastel.trafficsimulation.model.Updatable;
 import java.util.LinkedList;
 
 /**
+ * A class representing a street that implements the Road and Updatable interfaces.
+ * Cars are driving on the streets and they always have to keep the save distance of 10.
+ * so every street can have only length / 10 + 1 car on the street.
+ *
  * @author uyxib
  * @version 1.0
  */
 public class Street implements Road, Updatable {
+
     /**
      * save distance between cars
      */
-
     public static final int SAVE_DISTANCE = 10;
     private int startNode;
     private int endNode;

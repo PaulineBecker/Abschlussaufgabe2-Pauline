@@ -8,21 +8,21 @@ package edu.kit.kastel.trafficsimulation.model;
  */
 public interface Executable {
 
-        /**
-         * Returns whether or not this structure is active.
-         *
-         * @return whether or not this structure is active
-         */
-        boolean isActive();
+/**
+ * Returns whether or not this structure is active.
+ *
+ * @return whether or not this structure is active
+ */
+    boolean isActive();
 
-        /**
-         * Quits this structure so {@link #isActive()} will return {@code false}.
-         */
-        void quit();
+/**
+ * Quits this structure so {@link #isActive()} will return {@code false}.
+ */
+    void quit();
 
-        /**
-         * Return wether or not this structure is reading files
-         * @return
-         */
-        boolean isReading();
+/**
+ * Return wether or not this structure is reading files
+ * @return whether or not this structure is reading files
+ */
+    boolean isReading();
 }

@@ -4,11 +4,16 @@
     <checkstyleVersion>10.4</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
     <option name="thirdPartyClasspath" />
-    <option name="activeLocationIds" />
+    <option name="activeLocationIds">
+      <option value="de68c84c-1cef-41b8-a568-2e09df99036a" />
+      <option value="fb66e563-136a-4a36-86e1-f266bdcfc4fa" />
+    </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="de68c84c-1cef-41b8-a568-2e09df99036a" type="LOCAL_FILE" scope="All" description="cc optional">$PROJECT_DIR$/checkstyle-optional (6).xml</ConfigurationLocation>
+        <ConfigurationLocation id="fb66e563-136a-4a36-86e1-f266bdcfc4fa" type="LOCAL_FILE" scope="All" description="cc required">$PROJECT_DIR$/checkstyle-required (5).xml</ConfigurationLocation>
       </list>
     </option>
   </component>

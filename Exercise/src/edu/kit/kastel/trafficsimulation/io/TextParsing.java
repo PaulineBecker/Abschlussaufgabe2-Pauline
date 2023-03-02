@@ -10,14 +10,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Encapsulations the object to parse the input of car, crossings and street files.
+ *
  * @author uyxib
  * @version 1.0
  */
 public class TextParsing {
+    /**
+     * the regex that matches one line with the parameters of a street
+     */
 
-    private static final String STREET_REGEX = "^[0-9]+-->[0-9]+:(?:10|[1-9][0-9]{1,3}|10000)m," +
-            "[1-2]x,(?:[5-9]|[1-3][0-9]|40)max$";
+    private static final String STREET_REGEX = "^[0-9]+-->[0-9]+:(?:10|[1-9][0-9]{1,3}|10000)m,"
+            + "[1-2]x,(?:[5-9]|[1-3][0-9]|40)max$";
+    /**
+     * the regex that matches one line with the parameters of a car
+     */
     private static final String CAR_REGEX = "^\\d+,\\d+,(?:20|2[1-9]|3[0-9]|40),(?:[1-9]|10)$";
+    /**
+     * the regex that matches one line with the parameters of a crossing
+     */
     private static final String CROSSING_REGEX = "^[0-9]+:[0|3-9|10]t$";
     private static final String CROSSING = "crossing";
     private static final String CAR = "car";
@@ -30,6 +41,11 @@ public class TextParsing {
     private List<String> streetInput;
     private List<String> crossingInput;
 
+    /**
+     * instantiates a new textParser with the simulationFileLoader, and empty List of cars, crossings and streets
+     * @param filePath filePath where the files a located to read the files
+     */
+
     public TextParsing(String filePath) {
         this.carInput = new ArrayList<>();
         this.crossingInput = new ArrayList<>();
@@ -40,6 +56,13 @@ public class TextParsing {
             throw new SimulationException(exception.getMessage());
         }
     }
+
+    /**
+     * validates the input File of Crossings if the lines representing one crossing matches the crossing-regex
+     * splits the input string and gets only the digits of the string
+     * @throws SimulationException if the file is not found, the crossings input Strings don't match the pattern
+     * @return list of Integers Arrays, Every integer array entry contains the int values of a crossing
+     */
 
     public List<int[]> validateCrossings() {
         List<int[]> crossingParameters = new ArrayList<>();
@@ -58,6 +81,13 @@ public class TextParsing {
         return crossingParameters;
     }
 
+    /**
+     * validates the input File of Cars if the lines representing one car matches the car-regex
+     * splits the input string and gets only the digits of the string
+     * @throws SimulationException if the file is not found, the car input Strings don't match the pattern
+     * @return list of Integers Arrays, Every integer array entry contains the int values of a crossing
+     */
+
     public List<int[]> validateCars() {
         List<int[]> carParameters = new ArrayList<>();
         try {
@@ -73,6 +103,12 @@ public class TextParsing {
         return carParameters;
     }
 
+    /**
+     * validates the input File of Streets if the lines representing one Street matches the Street-regex
+     * splits the input string and gets only the digits of the string
+     * @throws SimulationException if the file is not found, the Street input Strings don't match the pattern
+     * @return list of Integers Arrays, Every integer array entry contains the int values of a crossing
+     */
     public List<int[]> validateStreets() {
         List<int[]> streetParameters = new ArrayList<>();
         try {
@@ -114,7 +150,7 @@ public class TextParsing {
     }
 
     private String removeLastChar(String stringToRemove) {
-        return stringToRemove.substring(0, stringToRemove.length()-1);
+        return stringToRemove.substring(0, stringToRemove.length() - 1);
     }
 
     private void validateEmptyFile(List<String> inputList, String file) {

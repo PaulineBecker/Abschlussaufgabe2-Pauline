@@ -49,9 +49,25 @@ public enum ExceptionMessages {
      */
     INVALID_NUMBER_OF_STREETS("Error: The %d. node has an invalid number of streets."),
     /**
-     * Error message if a more cars try to be on one street than possible
+     * Error message if more cars try to be on one street than possible
      */
     INVALID_NUMBER_OF_CARS_ON_STREET("Error: Street %d cannot have more than %d cars."),
+    /**
+     * Error message if a street has the same start and end node.
+     */
+    INVALID_STREET_NODE("Error: Street %d cannot have the same start- and end node."),
+    /**
+     * Error message if the ID of cars exists more than only once
+     */
+    DUPLICATED_CAR_ID("Error: The car ID %d exists more than once."),
+    /**
+     * Error message if the ID of crossings exists more than only once
+     */
+    DUPLICATED_CROSSING_ID("Error: The crossing ID %d exists more than once."),
+    /**
+     * Error message if the ID of crossings exists more than only once
+     */
+    STREET_WITH_ILLEGAL_NODE("Error: The street %d has a node that doesn't exist."),
     /**
      * Error message if the command is not found
      */

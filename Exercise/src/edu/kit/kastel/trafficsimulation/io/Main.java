@@ -6,7 +6,7 @@ package edu.kit.kastel.trafficsimulation.io;
  * @author uyxib
  * @version 1.0
  */
-public class Main {
+public final class Main {
 
 
     /**
@@ -15,6 +15,11 @@ public class Main {
     private Main() {
         throw new IllegalStateException(ExceptionMessages.UTILITY_CLASS_INSTANTIATION.format());
     }
+
+    /**
+     * Entry point to the program.
+     * @param args Commando Line Arguments
+     */
     public static void main(String[] args) {
 
         Shell shell = new Shell();

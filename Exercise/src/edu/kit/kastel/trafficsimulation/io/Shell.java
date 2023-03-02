@@ -7,10 +7,16 @@ import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 import java.util.Scanner;
 
 /**
+ * instantiates the shell class with the in and ouput of the user who want to simulate traffic
+ *
  * @author uyxib
  * @version 1.0
  */
 public class Shell {
+    /**
+     * simulate a traffic simulation, reads the input of the user and prints out the result.
+     * checks if the status of the simulation matches the input
+     */
 
     public void simulate() {
 

@@ -10,6 +10,7 @@ import edu.kit.kastel.trafficsimulation.model.road.FastTrackStreet;
 import edu.kit.kastel.trafficsimulation.model.road.Street;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -32,9 +33,9 @@ public class StreetNetwork implements Updatable {
     private static final int ACCELERATION = 3;
 
 
-    private List<Street> streets;
-    private List<Car> cars;
-    private List<Node> nodes;
+    private final List<Street> streets;
+    private final List<Car> cars;
+    private final List<Node> nodes;
     private TextParsing textParsing;
     private List<int[]> carParameters;
     private List<int[]> streetParameters;
@@ -61,8 +62,11 @@ public class StreetNetwork implements Updatable {
         initStreets();
         addStreetsToNode();
         validateNodes();
+        validateNodesExistsForStreets();
         initCars();
         addCarsToStreet();
+        checkDuplicateCarIds();
+        checkDuplicateNodeIds();
     }
 
     public String getCurrentCar(int carID) {
@@ -95,7 +99,9 @@ public class StreetNetwork implements Updatable {
     private void initStreets() {
         for (int i = 0; i < streetParameters.size(); i++) {
             int[] currentStreet = streetParameters.get(i);
-            if (currentStreet[STREET_TYPE] == SINGLE_LANE) {
+            if (currentStreet[START_NODE] == currentStreet[END_NODE]) {
+                throw new SimulationException(ExceptionMessages.INVALID_STREET_NODE.format(i));
+            } else if (currentStreet[STREET_TYPE] == SINGLE_LANE) {
                 streets.add(new Street(currentStreet[START_NODE], currentStreet[END_NODE], currentStreet[LENGTH],
                         currentStreet[SPEED_LIMIT], i));
             } else {
@@ -143,9 +149,45 @@ public class StreetNetwork implements Updatable {
                         streetPosition -= Street.SAVE_DISTANCE;
                     } else {
                         throw new SimulationException(ExceptionMessages.INVALID_NUMBER_OF_CARS_ON_STREET
-                                .format(street.getStreetID(), i));
+                                .format(street.getStreetID(), i - 1));
                     }
                 }
+            }
+        }
+    }
+
+    private void checkDuplicateCarIds() {
+        HashSet<Integer> iDs = new HashSet<>();
+        for (Car car : cars) {
+            if (!iDs.add(car.getCarID())) {
+                throw new SimulationException(ExceptionMessages.DUPLICATED_CAR_ID.format(car.getCarID()));
+            }
+        }
+    }
+
+    private void checkDuplicateNodeIds() {
+        HashSet<Integer> iDs = new HashSet<>();
+        for (Node node : nodes) {
+            if (!iDs.add(node.getNodeID())) {
+                throw new SimulationException(ExceptionMessages.DUPLICATED_CROSSING_ID.format(node.getNodeID()));
+            }
+        }
+    }
+
+    private void validateNodesExistsForStreets() {
+        for (Street street : streets) {
+            boolean startNodeExists = false;
+            boolean endNodeExists = false;
+            for (Node node : nodes) {
+                if (street.getStartNode() == node.getNodeID()) {
+                    startNodeExists = true;
+                }
+                if (street.getEndNode() == node.getNodeID()) {
+                    endNodeExists = true;
+                }
+            }
+            if (!startNodeExists || !endNodeExists) {
+                throw new SimulationException(ExceptionMessages.STREET_WITH_ILLEGAL_NODE.format(street.getStreetID()));
             }
         }
     }
