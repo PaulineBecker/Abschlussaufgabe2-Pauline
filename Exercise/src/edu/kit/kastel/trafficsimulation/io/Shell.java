@@ -6,6 +6,7 @@ import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
 import java.util.Scanner;
 
+
 /**
  * instantiates the shell class with the in and ouput of the user who want to simulate traffic
  *
@@ -21,7 +22,7 @@ public class Shell {
     public void simulate() {
 
         final StreetNetwork streetNetwork = new StreetNetwork();
-        final Simulation simulation = new Simulation(streetNetwork);
+        Simulation simulation = new Simulation(streetNetwork);
         Scanner inputScanner = new Scanner(System.in);
         while (simulation.isReading()) {
             final String input = inputScanner.nextLine();

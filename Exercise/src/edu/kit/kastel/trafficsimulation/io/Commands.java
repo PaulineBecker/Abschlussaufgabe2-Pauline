@@ -78,7 +78,7 @@ public enum Commands {
     /**
      * Regex that every input is allowed after a specific input command
      */
-    private static final String ALL_INPUT = ".*";
+    public static final String ALL_INPUT = ".*";
     private static final String EMPTY_STRING = "";
     private static final String COMMAND_SEPERATOR = " ";
     /**

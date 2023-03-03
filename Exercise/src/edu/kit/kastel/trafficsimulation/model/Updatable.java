@@ -12,5 +12,5 @@ public interface Updatable {
     /**
      * Updates the object. Implementing classes should define how the object is updated.
      */
-    public void update();
+    void update();
 }

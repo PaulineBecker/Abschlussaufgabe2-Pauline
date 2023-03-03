@@ -16,37 +16,48 @@ import java.util.List;
  * @version 1.0
  */
 public abstract class Node implements Updatable {
+
     /**
      * The maximum number of streets a node can have.
      */
-    public static final int MAXIMUM_STREETS = 4;
+    public static final int MAXIMUM_STREETS = 3;
 
     /**
      * The starting street index for a node.
      */
     public static final int START_STREET = 0;
 
+    /**
+     * the id of the current street that is green
+     */
+    protected int currentGreenStreet;
     private int nodeID;
     private List<Street> incomingStreets;
     private List<Street> outgoingStreets;
-    protected int currentGreenStreet;
+
 
     /**
      * Creates a new Node object with the specified ID and empty lists of incoming and outgoing streets.
      *
      * @param nodeID the ID of the node
      */
-    public Node(int nodeID, int START_STREET) {
+    public Node(int nodeID) {
         this.nodeID = nodeID;
         this.incomingStreets = new ArrayList<>();
         this.outgoingStreets = new ArrayList<>();
         currentGreenStreet = START_STREET;
     }
 
+    /**
+     * Returns whether the specified street has a green light at this node.
+     * @param streetID the ID of the street
+     * @return true if the specified street has a green light, false otherwise
+     */
+    public abstract boolean hasStreetGreen(int streetID);
+
 
     /**
      * Validates the corresponding streets for this node, ensuring that it has between 1 and 4 streets.
-     * Throws a SimulationException if the number of streets is invalid.
      *
      * @throws SimulationException if the number of streets is invalid
      * @param streets the list of streets to validate
@@ -83,10 +94,18 @@ public abstract class Node implements Updatable {
         return outgoingStreets;
     }
 
+    /**
+     * Returns the ID of the current green street at this node.
+     * @return the ID of the current green street
+     */
     public int getCurrentGreenStreet() {
         return currentGreenStreet;
     }
 
+    /**
+     * Sets the ID of the current green street at this node.
+     * @param currentGreenStreet the ID of the new current green street
+     */
     public void setCurrentGreenStreet(int currentGreenStreet) {
         this.currentGreenStreet = currentGreenStreet;
     }

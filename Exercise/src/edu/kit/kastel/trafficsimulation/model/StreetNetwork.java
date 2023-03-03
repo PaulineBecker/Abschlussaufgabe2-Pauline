@@ -14,6 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * StreetNetwork represents a network of streets with cars and nodes. It implements the Updatable interface,
+ * which defines a single update() method that updates the streets, resets all cars on streets, and updates the nodes.
+ *
  * @author uyxib
  * @version 1.0
  */
@@ -39,6 +42,10 @@ public class StreetNetwork implements Updatable {
     private List<int[]> streetParameters;
     private List<int[]> crossingParameters;
 
+    /**
+     * Constructs an empty StreetNetwork object with empty lists for streets, cars, and nodes, as well as null values
+     * for textParsing and carParameters.
+     */
     public StreetNetwork() {
         this.streets = new ArrayList<>();
         this.cars = new ArrayList<>();
@@ -49,7 +56,9 @@ public class StreetNetwork implements Updatable {
         this.crossingParameters = new ArrayList<>();
     }
 
-
+    /**
+     * Updates the streets in the network, resets all cars on streets, and updates the nodes.
+     */
     @Override
     public void update() {
         updateStreets();
@@ -57,6 +66,10 @@ public class StreetNetwork implements Updatable {
         updateNodes();
     }
 
+    /**
+     * Initializes the nodes, streets, and cars in the network, validates the nodes, and checks for duplicate IDs
+     * for both cars and nodes. Adds cars to the street and connects streets and nodes.
+     */
     public void init() {
         initNodes();
         initStreets();
@@ -69,6 +82,12 @@ public class StreetNetwork implements Updatable {
         checkDuplicateNodeIds();
     }
 
+    /**
+     * Returns the String representation of the car with the given ID in the simulation.
+     * @param carID the ID of the car to get the String representation of
+     * @return the String representation of the car with the given ID
+     * @throws SimulationException if no car with the given ID exists in the simulation
+     */
     public String getCurrentCar(int carID) {
         for (Car car: cars) {
             if (car.getCarID() == carID) {
@@ -78,6 +97,12 @@ public class StreetNetwork implements Updatable {
         throw new SimulationException(ExceptionMessages.CAR_NOT_IN_SIMULATION.format());
     }
 
+    /**
+     * Reads files containing parameters for cars, streets, and crossings from the given file path, validates the
+     * parameters, and sets the carParameters, streetParameters, and crossingParameters fields in the StreetNetwork
+     * object to the validated parameters.
+     * @param filePath the path of the file to read parameters from
+     */
     public void readFiles(String filePath) {
         textParsing = new TextParsing(filePath);
         carParameters = textParsing.validateCars();
@@ -85,6 +110,26 @@ public class StreetNetwork implements Updatable {
         crossingParameters = textParsing.validateCrossings();
     }
 
+    /**
+     * Returns the Node object with the given node ID.
+     * @throws SimulationException if the node is not found in the list of nodes
+     * @param nodeID the ID of the node to be returned
+     * @param streetID the ID of the street associated with the node
+     * @return the Node object with the given ID
+     */
+    public Node getNodeFromID(int nodeID, int streetID) {
+        for (Node node : nodes) {
+            if (node.getNodeID() == nodeID) {
+                return node;
+            }
+        }
+        throw new SimulationException(ExceptionMessages.STREET_WITH_ILLEGAL_NODE.format(streetID));
+        //TODO prüfen ob exisitert also falls null exeption
+    }
+
+    /**
+     * Initializes the nodes based on the crossing parameters, creating either an Intersection or a Roundabout object.
+     */
     private void initNodes() {
         for (int i = 0; i < crossingParameters.size(); i++) {
 
@@ -96,6 +141,10 @@ public class StreetNetwork implements Updatable {
         }
     }
 
+    /**
+     * Initializes the streets based on the street parameters, creating either a Street or a FastTrackStreet object.
+     * @throws SimulationException if the start and end nodes of a street are the same.
+     */
     private void initStreets() {
         for (int i = 0; i < streetParameters.size(); i++) {
             int[] currentStreet = streetParameters.get(i);
@@ -103,14 +152,19 @@ public class StreetNetwork implements Updatable {
                 throw new SimulationException(ExceptionMessages.INVALID_STREET_NODE.format(i));
             } else if (currentStreet[STREET_TYPE] == SINGLE_LANE) {
                 streets.add(new Street(currentStreet[START_NODE], currentStreet[END_NODE], currentStreet[LENGTH],
-                        currentStreet[SPEED_LIMIT], i));
+                        currentStreet[SPEED_LIMIT], i,
+                        getNodeFromID(currentStreet[START_NODE], i), getNodeFromID(currentStreet[END_NODE], i)));
             } else {
                 streets.add(new FastTrackStreet(currentStreet[START_NODE], currentStreet[END_NODE],
-                        currentStreet[LENGTH], currentStreet[SPEED_LIMIT], i));
+                        currentStreet[LENGTH], currentStreet[SPEED_LIMIT], i,
+                        getNodeFromID(currentStreet[START_NODE], i), getNodeFromID(currentStreet[END_NODE], i)));
             }
         }
     }
 
+    /**
+     * Initializes the cars based on the car parameters.
+     */
     private void initCars() {
         for (int i = 0; i < carParameters.size(); i++) {
             cars.add(new Car(carParameters.get(i)[ID], carParameters.get(i)[STREET]
@@ -121,10 +175,10 @@ public class StreetNetwork implements Updatable {
     private void addStreetsToNode() {
         for (Street street : streets) {
             for (Node node : nodes) {
-                if (node.getNodeID() == street.getStartNode()) {
+                if (node.getNodeID() == street.getIntStartNode()) {
                     node.getOutgoingStreets().add(street);
                 }
-                if (node.getNodeID() == street.getEndNode()) {
+                if (node.getNodeID() == street.getIntEndNode()) {
                     node.getIncomingStreets().add(street);
                 }
             }
@@ -179,10 +233,10 @@ public class StreetNetwork implements Updatable {
             boolean startNodeExists = false;
             boolean endNodeExists = false;
             for (Node node : nodes) {
-                if (street.getStartNode() == node.getNodeID()) {
+                if (street.getIntStartNode() == node.getNodeID()) {
                     startNodeExists = true;
                 }
-                if (street.getEndNode() == node.getNodeID()) {
+                if (street.getIntEndNode() == node.getNodeID()) {
                     endNodeExists = true;
                 }
             }

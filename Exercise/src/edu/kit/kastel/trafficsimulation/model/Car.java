@@ -77,6 +77,13 @@ public class Car implements Updatable {
         }
     }
 
+    /**
+     * Increases the speed of the vehicle up to the specified speed limit.
+     * The new speed is determined by adding the acceleration to the current speed,
+     * then taking the minimum of that value and the speed limit, and finally taking
+     * the minimum of that value and the preferred speed.
+     * @param speedLimit the maximum speed limit for the vehicle
+     */
     public void accelerate(int speedLimit) {
         int newSpeed = Math.min((currentSpeed + acceleration), speedLimit);
         currentSpeed = Math.min(newSpeed, preferedSpeed);
@@ -92,9 +99,10 @@ public class Car implements Updatable {
      * for case 3 & 4 car stores the remaining Meters and will check later if it can move to another street
      * additionally after driving sets boolean is moved to true
      * @param distance distance to the next car in the current street
+     * @param currentSpeed the current speed of the car
      * @param length length of the current street
      */
-    public void drive(int distance, int length) {
+    public void drive(int distance, int length, int currentSpeed) {
         int oldPosition = currentPosition;
         int metersToGo = length - currentPosition;
         if (metersToGo >= currentSpeed) {
@@ -112,20 +120,34 @@ public class Car implements Updatable {
             }
         }
         isMoved = true;
-        resetSpeedInTraffic(oldPosition);
     }
+
     /**
      * Resets the car's is moved attribut to false so in this tick the car hasn't moved so far
      */
-    public void resetIsMoved() {
+    public void resetMoveParameters() {
         isMoved = false;
+        remainingMeters = 0;
     }
 
-    public void turn(Street newStreet) {
-        if (newStreet.getCars().getLast().getCurrentPosition() >= 10) {
+    /**
+     * Turns the vehicle onto the specified new street if the conditions are met.
+     * The conditions for turning are that the new street must either be empty or the last
+     * car on the street must have moved at least 10 meters away, and the remaining distance
+     * to travel must be greater than 0.
+     * If the vehicle successfully turns onto the new street, its current position is set to 0
+     * and its current street is updated to the ID of the new street.
+     * @param newStreet the new street to turn onto
+     * @return {@code true} if the vehicle successfully turns onto the new street, {@code false} otherwise
+     */
+    public boolean turn(Street newStreet) {
+        if ((newStreet.getCars().isEmpty() || newStreet.getCars().getLast().getCurrentPosition() >= 10)
+                && remainingMeters > 0) {
             currentPosition = 0;
             currentStreet = newStreet.getStreetID();
+            return true;
         }
+        return false;
     }
 
     /**
@@ -137,6 +159,8 @@ public class Car implements Updatable {
             currentSpeed = START_SPEED;
         }
     }
+
+    //TODO noch einbauen traffic
 
     /**
      * Returns the acceleration of the car.
@@ -251,5 +275,13 @@ public class Car implements Updatable {
 
     public void setMoved(boolean moved) {
         isMoved = moved;
+    }
+
+    /**
+     * Returns the remaining distance in meters.
+     * @return the remaining distance in meters
+     */
+    public int getRemainingMeters() {
+        return remainingMeters;
     }
 }
