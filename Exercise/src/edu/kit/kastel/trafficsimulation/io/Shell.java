@@ -27,7 +27,7 @@ public class Shell {
         while (Commands.getSimulation2().isReading()) {
             final String input = inputScanner.nextLine();
             try {
-                print(input, simulation);
+                print(input);
             } catch (final SimulationException exception) {
                 System.err.println(exception.getMessage());
             }
@@ -36,7 +36,7 @@ public class Shell {
         while (Commands.getSimulation2().isActive()) {
             final String input = inputScanner.nextLine();
             try {
-                print(input, simulation);
+                print(input);
             } catch (final SimulationException exception) {
                 System.err.println(exception.getMessage());
             }
@@ -44,8 +44,8 @@ public class Shell {
         inputScanner.close();
     }
 
-    private void print(String input, Simulation simulation) {
-        final String output = Commands.executeCommand(input, simulation);
+    private void print(String input) {
+        final String output = Commands.executeCommand(input);
         if (output != null) {
             System.out.println(output);
         }

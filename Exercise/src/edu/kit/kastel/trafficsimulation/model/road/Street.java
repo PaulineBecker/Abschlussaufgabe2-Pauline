@@ -70,7 +70,7 @@ public class Street implements Updatable {
                 if (!turnCar(currentCar)) {
                     i++;
                 }
-                currentCar.resetSpeedInTraffic();
+                currentCar.resetSpeedInTraffic(false);
             } else {
                 i++;
             }

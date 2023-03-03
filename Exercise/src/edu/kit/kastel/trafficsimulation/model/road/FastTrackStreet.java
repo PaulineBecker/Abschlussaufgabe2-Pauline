@@ -64,6 +64,7 @@ public class FastTrackStreet extends Street implements Overtakable {
 
     @Override
     public void update() {
+        boolean hasOvertaken = false;
         int i = 0;
         while (i < cars.size()) {
             Car currentCar = cars.get(i);
@@ -76,8 +77,9 @@ public class FastTrackStreet extends Street implements Overtakable {
                     }
                 } else {
                     i++;
+                    hasOvertaken = true;
                 }
-                currentCar.resetSpeedInTraffic();
+                currentCar.resetSpeedInTraffic(hasOvertaken);
             } else {
                 i++;
             }

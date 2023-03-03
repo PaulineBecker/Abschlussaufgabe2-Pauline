@@ -31,9 +31,9 @@ public abstract class Node implements Updatable {
      * the id of the current street that is green
      */
     protected int currentGreenStreet;
-    private int nodeID;
-    private List<Street> incomingStreets;
-    private List<Street> outgoingStreets;
+    protected int nodeID;
+    protected List<Street> incomingStreets;
+    protected List<Street> outgoingStreets;
 
 
     /**

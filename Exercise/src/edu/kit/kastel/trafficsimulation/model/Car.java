@@ -63,7 +63,7 @@ public class Car implements Updatable {
     }
 
     /**
-     * Updates the car's desired street after the car entered in a new street after a crossing
+     * Updates the car's desired street after the car entered a new street after a crossing
      */
     @Override
     public void update() {
@@ -159,13 +159,11 @@ public class Car implements Updatable {
     /**
      * Resets the car's speed in traffic to the starting speed. if there's no traffic method does nothing
      */
-    public void resetSpeedInTraffic() {
-        if (oldPosition == currentPosition) { //TODO das reine Abiegen zählt nicht als Bewegung checken
+    public void resetSpeedInTraffic(boolean hasOvertaken) {
+        if (oldPosition == currentPosition && !hasOvertaken) { //TODO das reine Abiegen zählt nicht als Bewegung checken
             currentSpeed = START_SPEED;
         }
     }
-
-    //TODO noch einbauen traffic
 
     /**
      * Returns the acceleration of the car.

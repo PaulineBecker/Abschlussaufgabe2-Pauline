@@ -1,7 +1,6 @@
 package edu.kit.kastel.trafficsimulation.io;
 
 import edu.kit.kastel.trafficsimulation.exception.SimulationException;
-import edu.kit.kastel.trafficsimulation.model.road.Street;
 import edu.kit.kastel.trafficsimulation.model.simulation.Simulation;
 import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
@@ -21,26 +20,10 @@ public enum Commands {
      * return information position, speed of a given car
      */
     CAR_POSITION("^position " + Commands.ALL_INPUT) {
-        @Override
-        public String execute(String input, Simulation simulation) {
-            Commands.validateActiveSimulation(simulation);
-            Commands.validateSpaceAtEnd(input);
-            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
-            Commands.validateArgumentsLength(inputList);
-            int inputID = Commands.validateNumeric(inputList[0]);
-            Commands.legalNumber(inputID);
-            return simulation.showCar(inputID);
-        }
 
         @Override
-        String execute2(String input) {
-            Commands.validateSimulationActive();
-            Commands.validateActiveSimulation(simulation2);
-            Commands.validateSpaceAtEnd(input);
-            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
-            Commands.validateArgumentsLength(inputList);
-            int inputID = Commands.validateNumeric(inputList[0]);
-            Commands.legalNumber(inputID);
+        String execute(String input) {
+            int inputID = Commands.validateCommand(input, CAR_POSITION);
             return simulation2.showCar(inputID);
         }
     },
@@ -49,26 +32,10 @@ public enum Commands {
      * input of a user to get the information position, speed of a given car
      */
     SIMULATE("^simulate " + Commands.ALL_INPUT) {
-        @Override
-        public String execute(String input, Simulation simulation) {
-            Commands.validateActiveSimulation(simulation);
-            Commands.validateSpaceAtEnd(input);
-            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
-            Commands.validateArgumentsLength(inputList);
-            int inputNumber = Commands.validateNumeric(inputList[0]);
-            Commands.legalNumber(inputNumber);
-            return simulation.simulate(inputNumber);
-        }
 
         @Override
-        String execute2(String input) {
-            Commands.validateSimulationActive();
-            Commands.validateActiveSimulation(simulation2);
-            Commands.validateSpaceAtEnd(input);
-            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
-            Commands.validateArgumentsLength(inputList);
-            int inputNumber = Commands.validateNumeric(inputList[0]);
-            Commands.legalNumber(inputNumber);
+        String execute(String input) {
+            int inputNumber = Commands.validateCommand(input, SIMULATE);
             return simulation2.simulate(inputNumber);
         }
     },
@@ -79,22 +46,13 @@ public enum Commands {
     LOAD("^load " + Commands.ALL_INPUT) {
 
         @Override
-        public String execute(String input, Simulation simulation) {
+        String execute(String input) {
             Commands.validateSpaceAtEnd(input);
-            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
-            Commands.validateArgumentsLength(inputList);
-            String filePath = inputList[0];
-            return simulation.readFiles(filePath);
-        }
-
-        @Override
-        String execute2(String input) {
-            Commands.validateSpaceAtEnd(input);
-            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
+            String[] inputList = Commands.getSplitString(Commands.replaceAllInput(this, input));
             Commands.validateArgumentsLength(inputList);
             String filePath = inputList[0];
             try {
-                testSimulation = new Simulation(new StreetNetwork());
+                Simulation testSimulation = new Simulation(new StreetNetwork());
                 testSimulation.readFiles(filePath);
             } catch (final SimulationException exception) {
                 throw new SimulationException(exception.getMessage());
@@ -110,13 +68,7 @@ public enum Commands {
     QUIT("quit") {
 
         @Override
-        public String execute(String input, Simulation simulation) {
-            simulation.quit();
-            return null;
-        }
-
-        @Override
-        String execute2(String input) {
+        String execute(String input) {
             simulation2.quit();
             return null;
         }
@@ -128,11 +80,8 @@ public enum Commands {
     public static final String ALL_INPUT = ".*";
     private static final String EMPTY_STRING = "";
     private static final String COMMAND_SEPERATOR = " ";
-    /**
-     * The separator between lines of output.
-     */
-    private static final String LINE_SEPARATOR = System.lineSeparator();
 
+    private static Simulation simulation2 = new Simulation(new StreetNetwork());
     /**
      * The pattern of this command.
      */
@@ -143,8 +92,7 @@ public enum Commands {
      */
     private final String uiCommand;
 
-    private static Simulation simulation2 = new Simulation(new StreetNetwork());
-    private static Simulation testSimulation = null;
+
 
     /**
      * Instantiates a new command with the given String. The given String must be a
@@ -163,17 +111,15 @@ public enum Commands {
      * this input performed on the given playlist.
      *
      * @param input the line of input
-     * @param simulation the {@link StreetNetwork} the command is executed on
      *
      * @return the result of the command execution, may contain error messages or be
      *         null if there is no output
      */
-    public static String executeCommand(final String input, final Simulation simulation) {
+    public static String executeCommand(final String input) {
         for (final Commands command : Commands.values()) {
             final Matcher matcher = command.pattern.matcher(input);
             if (matcher.matches()) {
-                //return command.execute(input, simulation);
-                return command.execute2(input);
+                return command.execute(input);
             }
         }
         return ExceptionMessages.COMMAND_NOT_FOUND.format();
@@ -183,19 +129,24 @@ public enum Commands {
      * Executes the given input on the given scrabble.
      *
      * @param input     the line of input
-     * @param simulation the game where the command is executed on
      * @return the result of the command execution, may contain error messages or be
      * null if there is no output
      */
-    abstract String execute(String input, Simulation simulation);
+    abstract String execute(String input);
 
-    abstract String execute2(String input);
+    /**
+     * gets the current simulation with its street network
+     * @return the current simulation
+     */
+    public static Simulation getSimulation2() {
+        return simulation2;
+    }
 
     private static String replaceAllInput(Commands command, String input) {
         return input.replaceAll(command.uiCommand.replace(ALL_INPUT, EMPTY_STRING), EMPTY_STRING);
     }
 
-    private static String[] getSplittedString(String input) {
+    private static String[] getSplitString(String input) {
         return input.split(COMMAND_SEPERATOR);
     }
 
@@ -243,11 +194,15 @@ public enum Commands {
         }
     }
 
-    public static Simulation getSimulation2() {
-        return simulation2;
+    private static int validateCommand(String input, Commands command) {
+        Commands.validateSimulationActive();
+        Commands.validateActiveSimulation(simulation2);
+        Commands.validateSpaceAtEnd(input);
+        String[] inputList = Commands.getSplitString(Commands.replaceAllInput(command, input));
+        Commands.validateArgumentsLength(inputList);
+        int inputNumber = Commands.validateNumeric(inputList[0]);
+        Commands.legalNumber(inputNumber);
+        return inputNumber;
     }
 
-    public static void setSimulation2(Simulation simulation2) {
-        Commands.simulation2 = simulation2;
-    }
 }
