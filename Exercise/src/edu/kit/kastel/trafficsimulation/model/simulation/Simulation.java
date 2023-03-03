@@ -1,7 +1,8 @@
-package edu.kit.kastel.trafficsimulation.model;
+package edu.kit.kastel.trafficsimulation.model.simulation;
 
 import edu.kit.kastel.trafficsimulation.io.ExecutionState;
 import edu.kit.kastel.trafficsimulation.io.Messages;
+import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
 /**
  * The {@code Simulation} class represents a simulation of a street network.

@@ -23,14 +23,14 @@ public class Street implements Updatable {
      * distance if there's no car in front of the current Car
      */
     public static final int NO_CAR_IN_FRONT = -1;
-    private int intStartNode;
-    private int intEndNode;
-    private final Node startNode;
-    private final Node endNode;
-    private int length;
-    private int speedLimit;
-    private final int streetID;
-    private LinkedList<Car> cars = new LinkedList<>();
+    protected int intStartNode;
+    protected int intEndNode;
+    protected final Node startNode;
+    protected final Node endNode;
+    protected int length;
+    protected int speedLimit;
+    protected final int streetID;
+    protected LinkedList<Car> cars = new LinkedList<>();
 
 
     /**
@@ -76,7 +76,7 @@ public class Street implements Updatable {
         }
     }
 
-    private boolean turnCar(Car car) {
+    protected boolean turnCar(Car car) {
 
         if (car.getCurrentPosition() != length) {
             return false;
@@ -201,7 +201,7 @@ public class Street implements Updatable {
      * @return the distance between the car at the specified index and the car in front of it,
      * or a constant value indicating that there is no car in front
      */
-    private int calculateDistance(int index, LinkedList<Car> cars) {
+    protected int calculateDistance(int index, LinkedList<Car> cars) {
         if (index > 0) {
             return (cars.get(index - 1).getCurrentPosition()
                     - cars.get(index).getCurrentPosition());

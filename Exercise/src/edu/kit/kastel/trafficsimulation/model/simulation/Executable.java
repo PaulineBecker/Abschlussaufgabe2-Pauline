@@ -1,4 +1,4 @@
-package edu.kit.kastel.trafficsimulation.model;
+package edu.kit.kastel.trafficsimulation.model.simulation;
 
 /**
  * Classes implementing this interface can be used for a command line interface.

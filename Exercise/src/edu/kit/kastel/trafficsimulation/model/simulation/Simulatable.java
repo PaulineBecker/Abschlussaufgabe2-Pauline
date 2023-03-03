@@ -1,4 +1,6 @@
-package edu.kit.kastel.trafficsimulation.model;
+package edu.kit.kastel.trafficsimulation.model.simulation;
+
+import edu.kit.kastel.trafficsimulation.model.simulation.Executable;
 
 /**
  * @author uyxib

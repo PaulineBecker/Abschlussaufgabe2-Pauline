@@ -1,10 +1,12 @@
 package edu.kit.kastel.trafficsimulation.model.road;
 
+import edu.kit.kastel.trafficsimulation.model.Car;
+
 /**
  * @author uyxib
  * @verion 1.0
  */
 public interface Overtakable {
 
-    public void overtakeVehicle();
+    public boolean overtakeVehicle(Car car);
 }

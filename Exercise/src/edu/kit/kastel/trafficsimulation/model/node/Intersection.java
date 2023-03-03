@@ -17,7 +17,7 @@ public class Intersection extends Node {
      * @param greenPhaseDuration the duration of the green phase for the traffic light
      */
     public Intersection(int nodeID, int greenPhaseDuration) {
-        super(nodeID, START_STREET);
+        super(nodeID);
         trafficLight = new TrafficLight(greenPhaseDuration);
     }
 

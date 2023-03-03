@@ -110,6 +110,7 @@ public class Car implements Updatable {
                 currentPosition = currentPosition + currentSpeed;
             } else {
                 currentPosition = currentPosition + (distance - Street.SAVE_DISTANCE);
+                remainingMeters = currentSpeed - (currentPosition - oldPosition);
             }
         } else {
             remainingMeters = currentSpeed - metersToGo;
@@ -283,5 +284,13 @@ public class Car implements Updatable {
      */
     public int getRemainingMeters() {
         return remainingMeters;
+    }
+
+    /**
+     * Sets the new reamingMeters that a car has left to drive in one tick.
+     * @param remainingMeters the remaining distance in meters
+     */
+    public void setRemainingMeters(int remainingMeters) {
+        this.remainingMeters = remainingMeters;
     }
 }

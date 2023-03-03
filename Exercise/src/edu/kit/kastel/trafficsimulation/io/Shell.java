@@ -1,7 +1,7 @@
 package edu.kit.kastel.trafficsimulation.io;
 
 import edu.kit.kastel.trafficsimulation.exception.SimulationException;
-import edu.kit.kastel.trafficsimulation.model.Simulation;
+import edu.kit.kastel.trafficsimulation.model.simulation.Simulation;
 import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
 import java.util.Scanner;

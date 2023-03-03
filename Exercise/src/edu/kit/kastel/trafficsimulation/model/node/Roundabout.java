@@ -19,7 +19,8 @@ public class Roundabout extends Node {
      * @param nodeID the ID of the roundabout node
      */
     public Roundabout(int nodeID) {
-        super(nodeID, ALL_STREETS_GREEN);
+        super(nodeID);
+        currentGreenStreet = ALL_STREETS_GREEN;
     }
 
     /**
