@@ -1,5 +1,7 @@
 package edu.kit.kastel.trafficsimulation.exception;
 
+import java.io.Serial;
+
 /**
  * Encapsulates an exception that may occur during a Traffic Simulation
  *
@@ -8,6 +10,7 @@ package edu.kit.kastel.trafficsimulation.exception;
  */
 public class SimulationException extends IllegalArgumentException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

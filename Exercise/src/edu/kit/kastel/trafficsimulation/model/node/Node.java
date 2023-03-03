@@ -31,8 +31,17 @@ public abstract class Node implements Updatable {
      * the id of the current street that is green
      */
     protected int currentGreenStreet;
+    /**
+     * the id of the node
+     */
     protected int nodeID;
+    /**
+     * list with all incoming Streets on the node (min 1 - max 4)
+     */
     protected List<Street> incomingStreets;
+    /**
+     * list with all outgoing Streets on the node (min 1 - max 4)
+     */
     protected List<Street> outgoingStreets;
 
 
@@ -41,7 +50,7 @@ public abstract class Node implements Updatable {
      *
      * @param nodeID the ID of the node
      */
-    public Node(int nodeID) {
+    protected Node(int nodeID) {
         this.nodeID = nodeID;
         this.incomingStreets = new ArrayList<>();
         this.outgoingStreets = new ArrayList<>();

@@ -23,13 +23,37 @@ public class Street implements Updatable {
      * distance if there's no car in front of the current Car
      */
     public static final int NO_CAR_IN_FRONT = -1;
+    /**
+     * The ID of the starting node of the street.
+     */
     protected int intStartNode;
+    /**
+     * The ID of the ending node of the street.
+     */
     protected int intEndNode;
+    /**
+     * The starting node of the street.
+     */
     protected final Node startNode;
+    /**
+     * The ending node of the street.
+     */
     protected final Node endNode;
+    /**
+     * *The length of the street.
+     */
     protected int length;
+    /**
+     * The speed limit of the street.
+     */
     protected int speedLimit;
+    /**
+     * The ID of the street.
+     */
     protected final int streetID;
+    /**
+     * A linked list of cars currently on the street.
+     */
     protected LinkedList<Car> cars = new LinkedList<>();
 
 
@@ -78,6 +102,16 @@ public class Street implements Updatable {
         }
     }
 
+    /**
+     * The turnCar method turns the given car onto a new street, if possible.
+     * If the car is not at the end of the current street or if the traffic light at the end node is not green,
+     * the method returns false.
+     * Otherwise, it gets the new street the car should turn onto, removes the car from the current street,
+     * adds it to the new street, and updates its position and status.
+     *
+     * @param car current Car that may want to trun onto antoher street
+     * @return true if the car was able to turn onto the new street, and false otherwise.
+     */
     protected boolean turnCar(Car car) {
 
         if (car.getCurrentPosition() != length) {

@@ -15,7 +15,7 @@ import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 public class Simulation implements Simulatable {
 
     private ExecutionState executionState;
-    private StreetNetwork streetNetwork;
+    private final StreetNetwork streetNetwork;
 
     /**
      * Constructs a new {@code Simulation} with the specified street network.
@@ -29,8 +29,8 @@ public class Simulation implements Simulatable {
     }
 
     /**
-     * Returns whether or not this structure is active.
-     * @return whether or not this structure is active
+     * Returns whether this structure is active.
+     * @return whether this structure is active
      */
     @Override
     public boolean isActive() {
@@ -46,8 +46,8 @@ public class Simulation implements Simulatable {
     }
 
     /**
-     * Returns whether or not this simulation is currently reading files.
-     * @return whether or not this simulation is currently reading files
+     * Returns whether this simulation is currently reading files.
+     * @return whether this simulation is currently reading files
      */
     @Override
     public boolean isReading() { return executionState == ExecutionState.READING; }

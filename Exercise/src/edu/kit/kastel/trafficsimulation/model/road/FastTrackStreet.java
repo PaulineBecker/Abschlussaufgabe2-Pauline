@@ -4,14 +4,14 @@ import edu.kit.kastel.trafficsimulation.model.Car;
 import edu.kit.kastel.trafficsimulation.model.node.Node;
 
 /**
- * A FastTrackStreet class that extends the Street class and implements the Overtakable interface.
+ * A FastTrackStreet class that extends the Street class and implements the Overtakeable interface.
  * It represents a street where vehicles can overtake each other. This class inherits the attributes
  * and methods from its superclass. Additionally, in this special street cars can overtake each other.
  *
  * @author uyxib
  * @version 1.0
  */
-public class FastTrackStreet extends Street implements Overtakable {
+public class FastTrackStreet extends Street implements Overtakeable {
     /**
      * car need more than 20 meter to the end of the street to overtake.
      * If Overtaking is possible, drives 20 m as the simulation of Overtaking.

@@ -73,9 +73,9 @@ public class TextParsing {
         }
         validatePatternMatch(crossingInput, CROSSING_REGEX, CROSSING);
         for (String inputRow : crossingInput) {
-            String[] crossingParameter = getSplittedString(inputRow, COLON);
+            String[] crossingParameter = getSplitString(inputRow, COLON);
             crossingParameter[1] = removeLastChar(crossingParameter[1]);
-            crossingParameters.add(stringArraytoInt(crossingParameter));
+            crossingParameters.add(stringArrayToInt(crossingParameter));
         }
         sortNodes(crossingParameters);
         return crossingParameters;
@@ -97,8 +97,8 @@ public class TextParsing {
         }
         validatePatternMatch(carInput, CAR_REGEX, CAR);
         for (String inputRow : carInput) {
-            String[] carParameter = getSplittedString(inputRow, KOMMA);
-            carParameters.add(stringArraytoInt(carParameter));
+            String[] carParameter = getSplitString(inputRow, KOMMA);
+            carParameters.add(stringArrayToInt(carParameter));
         }
         return carParameters;
     }
@@ -119,7 +119,7 @@ public class TextParsing {
         validatePatternMatch(streetInput, STREET_REGEX, STREET);
         for (String inputRow : streetInput) {
             String[] streetParameter = extractNumbers(inputRow);
-            streetParameters.add(stringArraytoInt(streetParameter));
+            streetParameters.add(stringArrayToInt(streetParameter));
         }
         //TODO StartKnoten != Endknoten
         return streetParameters;
@@ -133,11 +133,11 @@ public class TextParsing {
         }
     }
 
-    private String[] getSplittedString(String input, String split) {
+    private String[] getSplitString(String input, String split) {
         return input.split(split);
     }
 
-    private int[] stringArraytoInt(String[] stringArray) {
+    private int[] stringArrayToInt(String[] stringArray) {
         int[] intArray = new int[stringArray.length];
         for (int i = 0; i < stringArray.length; i++) {
             try {
@@ -157,7 +157,7 @@ public class TextParsing {
         if (inputList.isEmpty()) {
             throw new SimulationException(ExceptionMessages.FILE_IS_EMPTY.format(file));
         }
-    }
+    } //TODO nötig??
 
     private static String[] extractNumbers(String input) {
         String[] output = new String[5];

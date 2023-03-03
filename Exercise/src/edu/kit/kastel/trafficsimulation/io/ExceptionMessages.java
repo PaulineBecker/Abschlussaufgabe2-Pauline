@@ -1,7 +1,7 @@
 package edu.kit.kastel.trafficsimulation.io;
 
 /**
- * Exception Messages enum that contains all error messages when an exceptions is thrown.
+ * Exception Messages enum that contains all error messages when an exceptions are thrown.
  *
  * @author uyxib
  * @version 1.0
@@ -21,7 +21,7 @@ public enum ExceptionMessages {
      */
     ILLEGAL_SPACE("Error: Adding a space at the end of your command is illegal."),
     /**
-     * Error message if the player tries to plant on a negativ yCoordinate that is not part of the gameboard.
+     * Error message if the use tries to simulate with negative ticks or the position a negative car
      */
     NEGATIVE_COORDINATE("Error: Negative number is here not allowed."),
     /**

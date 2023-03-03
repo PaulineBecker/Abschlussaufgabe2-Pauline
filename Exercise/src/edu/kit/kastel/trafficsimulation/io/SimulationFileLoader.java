@@ -52,7 +52,6 @@ public final class SimulationFileLoader {
 
     /**
      * Loads the simulation file {@value FILENAME_STREETS} and returns the lines as list of String.
-     *
      * The returned value is never {@code null}. An empty list is returned, if the file is empty.
      *
      * @return     the lines of the file as list of String.
@@ -65,7 +64,6 @@ public final class SimulationFileLoader {
 
     /**
      * Loads the simulation file {@value FILENAME_CROSSINGS} and returns the lines as list of String.
-     *
      * The returned value is never {@code null}. An empty list is returned, if the file is empty.
      *
      * @return     the lines of the file as list of String.
@@ -78,7 +76,6 @@ public final class SimulationFileLoader {
 
     /**
      * Loads the simulation file {@value FILENAME_CARS} and returns the lines as list of String.
-     *
      * The returned value is never {@code null}. An empty list is returned, if the file is empty.
      *
      * @return     the lines of the file as list of String.

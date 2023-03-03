@@ -1,7 +1,5 @@
 package edu.kit.kastel.trafficsimulation.model.node;
 
-import edu.kit.kastel.trafficsimulation.model.Car;
-import edu.kit.kastel.trafficsimulation.model.road.Street;
 
 /**
  * A class representing an intersection in a traffic simulation, which extends the abstract Node class.
@@ -12,7 +10,7 @@ import edu.kit.kastel.trafficsimulation.model.road.Street;
  */
 public class Intersection extends Node {
 
-    private TrafficLight trafficLight;
+    private final TrafficLight trafficLight;
 
     /**
      * Creates a new Intersection object with the specified node ID and green phase duration.
@@ -42,11 +40,8 @@ public class Intersection extends Node {
      */
     @Override
     public boolean hasStreetGreen(int streetID) {
-        if (incomingStreets.size() - 1 >= currentGreenStreet
-                && getIncomingStreets().get(currentGreenStreet).getStreetID() == streetID) {
-            return true;
-        }
-        return false;
+        return incomingStreets.size() - 1 >= currentGreenStreet
+                && getIncomingStreets().get(currentGreenStreet).getStreetID() == streetID;
     }
 
     /**

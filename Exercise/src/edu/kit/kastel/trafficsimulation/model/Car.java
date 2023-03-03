@@ -158,6 +158,7 @@ public class Car implements Updatable {
 
     /**
      * Resets the car's speed in traffic to the starting speed. if there's no traffic method does nothing
+     * @param hasOvertaken true if car has overtaken, otherwise false
      */
     public void resetSpeedInTraffic(boolean hasOvertaken) {
         if (oldPosition == currentPosition && !hasOvertaken) { //TODO das reine Abiegen zählt nicht als Bewegung checken

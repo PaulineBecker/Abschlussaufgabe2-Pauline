@@ -1,14 +1,12 @@
 package edu.kit.kastel.trafficsimulation.io;
 
 import edu.kit.kastel.trafficsimulation.exception.SimulationException;
-import edu.kit.kastel.trafficsimulation.model.simulation.Simulation;
-import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
 import java.util.Scanner;
 
 
 /**
- * instantiates the shell class with the in and ouput of the user who want to simulate traffic
+ * instantiates the shell class with the in and output of the user who want to simulate traffic
  *
  * @author uyxib
  * @version 1.0
@@ -21,8 +19,6 @@ public class Shell {
 
     public void simulate() {
 
-        final StreetNetwork streetNetwork = new StreetNetwork();
-        Simulation simulation = new Simulation(streetNetwork);
         Scanner inputScanner = new Scanner(System.in);
         while (Commands.getSimulation2().isReading()) {
             final String input = inputScanner.nextLine();
