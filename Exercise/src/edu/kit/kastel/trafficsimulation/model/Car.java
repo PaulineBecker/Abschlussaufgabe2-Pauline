@@ -16,14 +16,17 @@ import edu.kit.kastel.trafficsimulation.model.road.Street;
 public class Car implements Updatable {
     private static final int START_SPEED = 0;
     private static final int START_DESIRED_STREET = 0;
+    private static final int NO_DRIVE = -1;
+    private static final int NO_REMAINING_METERS = 0;
 
     private int acceleration;
     private int desiredStreet;
-    private int preferedSpeed;
+    private final int preferredSpeed;
     private int currentSpeed;
     private int currentStreet;
-    private int carID;
+    private final int carID;
     private int currentPosition;
+    private int oldPosition;
     /**
      * remaining meters a car can drive after the end of a street. If remaining meters > 0 check if car can cross street
      */
@@ -34,18 +37,19 @@ public class Car implements Updatable {
      * Creates a new Car object with the given parameters.
      * @param carID The ID of the car
      * @param currentStreet The current street of the car
-     * @param preferedSpeed The preferred speed of the car
+     * @param preferredSpeed The preferred speed of the car
      * @param acceleration The acceleration of the car
      */
-    public Car(int carID, int currentStreet, int preferedSpeed, int acceleration) {
+    public Car(int carID, int currentStreet, int preferredSpeed, int acceleration) {
         this.acceleration = acceleration;
         this.desiredStreet = START_DESIRED_STREET;
         this.currentSpeed = START_SPEED;
         this.currentStreet = currentStreet;
         this.carID = carID;
-        this.preferedSpeed = preferedSpeed;
-        this.currentPosition = -1; //TODO
-        this.remainingMeters = 0;
+        this.preferredSpeed = preferredSpeed;
+        this.currentPosition = NO_DRIVE;
+        this.oldPosition = NO_DRIVE;
+        this.remainingMeters = NO_REMAINING_METERS;
         this.isMoved = false;
     }
 
@@ -86,7 +90,7 @@ public class Car implements Updatable {
      */
     public void accelerate(int speedLimit) {
         int newSpeed = Math.min((currentSpeed + acceleration), speedLimit);
-        currentSpeed = Math.min(newSpeed, preferedSpeed);
+        currentSpeed = Math.min(newSpeed, preferredSpeed);
     }
 
     /**
@@ -103,7 +107,7 @@ public class Car implements Updatable {
      * @param length length of the current street
      */
     public void drive(int distance, int length, int currentSpeed) {
-        int oldPosition = currentPosition;
+        oldPosition = currentPosition;
         int metersToGo = length - currentPosition;
         if (metersToGo >= currentSpeed) {
             if ((distance == Street.NO_CAR_IN_FRONT) || (distance >= (currentSpeed + Street.SAVE_DISTANCE))) {
@@ -129,6 +133,7 @@ public class Car implements Updatable {
     public void resetMoveParameters() {
         isMoved = false;
         remainingMeters = 0;
+        oldPosition = -1;
     }
 
     /**
@@ -153,9 +158,8 @@ public class Car implements Updatable {
 
     /**
      * Resets the car's speed in traffic to the starting speed. if there's no traffic method does nothing
-     * @param oldPosition the old position of the car before the tick
      */
-    private void resetSpeedInTraffic(int oldPosition) {
+    public void resetSpeedInTraffic() {
         if (oldPosition == currentPosition) { //TODO das reine Abiegen zählt nicht als Bewegung checken
             currentSpeed = START_SPEED;
         }
@@ -292,5 +296,13 @@ public class Car implements Updatable {
      */
     public void setRemainingMeters(int remainingMeters) {
         this.remainingMeters = remainingMeters;
+    }
+
+    /**
+     * Returns the old position of the car before moving
+     * @return the old position of the car
+     */
+    public int getOldPosition() {
+        return oldPosition;
     }
 }

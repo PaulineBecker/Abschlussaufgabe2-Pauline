@@ -63,12 +63,14 @@ public class Street implements Updatable {
     public void update() {
         int i = 0;
         while (i < cars.size()) {
-            if (!cars.get(i).isMoved()) {
-                cars.get(i).accelerate(speedLimit);
-                cars.get(i).drive(calculateDistance(i, cars), length, cars.get(i).getCurrentSpeed());
-                if (!turnCar(cars.get(i))) {
+            Car currentCar = cars.get(i);
+            if (!currentCar.isMoved()) {
+                currentCar.accelerate(speedLimit);
+                currentCar.drive(calculateDistance(i, cars), length, currentCar.getCurrentSpeed());
+                if (!turnCar(currentCar)) {
                     i++;
                 }
+                currentCar.resetSpeedInTraffic();
             } else {
                 i++;
             }

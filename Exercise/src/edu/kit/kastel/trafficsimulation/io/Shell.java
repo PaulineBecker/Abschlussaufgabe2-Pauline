@@ -24,7 +24,7 @@ public class Shell {
         final StreetNetwork streetNetwork = new StreetNetwork();
         Simulation simulation = new Simulation(streetNetwork);
         Scanner inputScanner = new Scanner(System.in);
-        while (simulation.isReading()) {
+        while (Commands.getSimulation2().isReading()) {
             final String input = inputScanner.nextLine();
             try {
                 print(input, simulation);
@@ -33,7 +33,7 @@ public class Shell {
             }
         }
 
-        while (simulation.isActive()) {
+        while (Commands.getSimulation2().isActive()) {
             final String input = inputScanner.nextLine();
             try {
                 print(input, simulation);

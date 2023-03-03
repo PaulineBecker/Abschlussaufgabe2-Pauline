@@ -1,6 +1,7 @@
 package edu.kit.kastel.trafficsimulation.io;
 
 import edu.kit.kastel.trafficsimulation.exception.SimulationException;
+import edu.kit.kastel.trafficsimulation.model.road.Street;
 import edu.kit.kastel.trafficsimulation.model.simulation.Simulation;
 import edu.kit.kastel.trafficsimulation.model.StreetNetwork;
 
@@ -30,6 +31,18 @@ public enum Commands {
             Commands.legalNumber(inputID);
             return simulation.showCar(inputID);
         }
+
+        @Override
+        String execute2(String input) {
+            Commands.validateSimulationActive();
+            Commands.validateActiveSimulation(simulation2);
+            Commands.validateSpaceAtEnd(input);
+            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
+            Commands.validateArgumentsLength(inputList);
+            int inputID = Commands.validateNumeric(inputList[0]);
+            Commands.legalNumber(inputID);
+            return simulation2.showCar(inputID);
+        }
     },
 
     /**
@@ -46,6 +59,18 @@ public enum Commands {
             Commands.legalNumber(inputNumber);
             return simulation.simulate(inputNumber);
         }
+
+        @Override
+        String execute2(String input) {
+            Commands.validateSimulationActive();
+            Commands.validateActiveSimulation(simulation2);
+            Commands.validateSpaceAtEnd(input);
+            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
+            Commands.validateArgumentsLength(inputList);
+            int inputNumber = Commands.validateNumeric(inputList[0]);
+            Commands.legalNumber(inputNumber);
+            return simulation2.simulate(inputNumber);
+        }
     },
 
     /**
@@ -61,6 +86,22 @@ public enum Commands {
             String filePath = inputList[0];
             return simulation.readFiles(filePath);
         }
+
+        @Override
+        String execute2(String input) {
+            Commands.validateSpaceAtEnd(input);
+            String[] inputList = Commands.getSplittedString(Commands.replaceAllInput(this, input));
+            Commands.validateArgumentsLength(inputList);
+            String filePath = inputList[0];
+            try {
+                testSimulation = new Simulation(new StreetNetwork());
+                testSimulation.readFiles(filePath);
+            } catch (final SimulationException exception) {
+                throw new SimulationException(exception.getMessage());
+            }
+            simulation2 = new Simulation(new StreetNetwork());
+            return simulation2.readFiles(filePath);
+        }
     },
 
     /**
@@ -71,6 +112,12 @@ public enum Commands {
         @Override
         public String execute(String input, Simulation simulation) {
             simulation.quit();
+            return null;
+        }
+
+        @Override
+        String execute2(String input) {
+            simulation2.quit();
             return null;
         }
     };
@@ -95,6 +142,9 @@ public enum Commands {
      * one of the allowed uiCommands
      */
     private final String uiCommand;
+
+    private static Simulation simulation2 = new Simulation(new StreetNetwork());
+    private static Simulation testSimulation = null;
 
     /**
      * Instantiates a new command with the given String. The given String must be a
@@ -122,7 +172,8 @@ public enum Commands {
         for (final Commands command : Commands.values()) {
             final Matcher matcher = command.pattern.matcher(input);
             if (matcher.matches()) {
-                return command.execute(input, simulation);
+                //return command.execute(input, simulation);
+                return command.execute2(input);
             }
         }
         return ExceptionMessages.COMMAND_NOT_FOUND.format();
@@ -137,6 +188,8 @@ public enum Commands {
      * null if there is no output
      */
     abstract String execute(String input, Simulation simulation);
+
+    abstract String execute2(String input);
 
     private static String replaceAllInput(Commands command, String input) {
         return input.replaceAll(command.uiCommand.replace(ALL_INPUT, EMPTY_STRING), EMPTY_STRING);
@@ -182,5 +235,19 @@ public enum Commands {
         } catch (NumberFormatException exception) {
             throw new SimulationException(ExceptionMessages.TO_HIGH_NOT_NUMERIC.format(inputNumber));
         }
+    }
+
+    private static void validateSimulationActive() {
+        if (simulation2 == null) {
+            throw new SimulationException(ExceptionMessages.NO_LOADED_STREET_NETWORK.format());
+        }
+    }
+
+    public static Simulation getSimulation2() {
+        return simulation2;
+    }
+
+    public static void setSimulation2(Simulation simulation2) {
+        Commands.simulation2 = simulation2;
     }
 }
