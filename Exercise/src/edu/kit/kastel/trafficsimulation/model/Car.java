@@ -14,9 +14,12 @@ import edu.kit.kastel.trafficsimulation.model.road.Street;
  * @version 1.0
  */
 public class Car implements Updatable {
+    /**
+     * status of the car if it didn't drive and start stauts of the position before setting car on street
+     */
+    public static final int NO_DRIVE = -1;
     private static final int START_SPEED = 0;
     private static final int START_DESIRED_STREET = 0;
-    private static final int NO_DRIVE = -1;
     private static final int NO_REMAINING_METERS = 0;
 
     private int acceleration;
@@ -270,15 +273,6 @@ public class Car implements Updatable {
      */
     public boolean isMoved() {
         return isMoved;
-    }
-
-    /**
-     * Sets whether the car has moved or not
-     * @param moved true if the car has moved, false otherwise
-     */
-
-    public void setMoved(boolean moved) {
-        isMoved = moved;
     }
 
     /**

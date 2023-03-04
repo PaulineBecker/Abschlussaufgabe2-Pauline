@@ -78,8 +78,9 @@ public class StreetNetwork implements Updatable {
         validateNodesExistsForStreets();
         initCars();
         addCarsToStreet();
-        checkDuplicateCarIds();
-        checkDuplicateNodeIds();
+        validateDuplicateCarIds();
+        validateDuplicateNodeIds();
+        validateStreetExistsForCars();
     }
 
     /**
@@ -124,7 +125,6 @@ public class StreetNetwork implements Updatable {
             }
         }
         throw new SimulationException(ExceptionMessages.STREET_WITH_ILLEGAL_NODE.format(streetID));
-        //TODO prüfen ob exisitert also falls null exeption
     }
 
     /**
@@ -198,19 +198,19 @@ public class StreetNetwork implements Updatable {
             for (int i = 0; i < cars.size(); i++) {
                 if (cars.get(i).getCurrentStreet() == street.getStreetID()) {
                     if (streetPosition >= 0) {
-                        cars.get(i).setCurrentPosition(streetPosition); //aktuelle Position dem Auto geben von Straße
-                        street.getCars().add(cars.get(i)); //Auto in Straße hinzufügen
+                        cars.get(i).setCurrentPosition(streetPosition);
+                        street.getCars().add(cars.get(i));
                         streetPosition -= Street.SAVE_DISTANCE;
                     } else {
                         throw new SimulationException(ExceptionMessages.INVALID_NUMBER_OF_CARS_ON_STREET
-                                .format(street.getStreetID(), i - 1));
+                                .format(street.getStreetID(), i));
                     }
                 }
             }
         }
     }
 
-    private void checkDuplicateCarIds() {
+    private void validateDuplicateCarIds() {
         HashSet<Integer> iDs = new HashSet<>();
         for (Car car : cars) {
             if (!iDs.add(car.getCarID())) {
@@ -219,7 +219,7 @@ public class StreetNetwork implements Updatable {
         }
     }
 
-    private void checkDuplicateNodeIds() {
+    private void validateDuplicateNodeIds() {
         HashSet<Integer> iDs = new HashSet<>();
         for (Node node : nodes) {
             if (!iDs.add(node.getNodeID())) {
@@ -242,6 +242,14 @@ public class StreetNetwork implements Updatable {
             }
             if (!startNodeExists || !endNodeExists) {
                 throw new SimulationException(ExceptionMessages.STREET_WITH_ILLEGAL_NODE.format(street.getStreetID()));
+            }
+        }
+    }
+
+    private void validateStreetExistsForCars() {
+        for (Car car : cars) {
+            if (car.getCurrentPosition() == Car.NO_DRIVE) {
+                throw new SimulationException(ExceptionMessages.CAR_WITH_ILLEGAL_STREET.format(car.getCarID()));
             }
         }
     }

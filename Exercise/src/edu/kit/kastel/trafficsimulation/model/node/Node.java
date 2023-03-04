@@ -21,6 +21,14 @@ public abstract class Node implements Updatable {
      * The maximum number of streets a node can have.
      */
     public static final int MAXIMUM_STREETS = 3;
+    /**
+     * The maximum size of incoming / outgoing streets a node can have.
+     */
+    public static final int MAXIMUM_STREETS_SIZE = 4;
+    /**
+     * The minimum size of incoming / outgoing streets a node can have.
+     */
+    public static final int MINIMUM_STREETS_SIZE = 1;
 
     /**
      * The starting street index for a node.
@@ -72,7 +80,7 @@ public abstract class Node implements Updatable {
      * @param streets the list of streets to validate
      */
     public void validateCorrespondingStreets(List<Street> streets) {
-        if (streets.size() < 1 || streets.size() > 4) {
+        if (streets.size() < MINIMUM_STREETS_SIZE || streets.size() > MAXIMUM_STREETS_SIZE) {
             throw new SimulationException(ExceptionMessages.INVALID_NUMBER_OF_STREETS.format(nodeID));
         }
     }

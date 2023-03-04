@@ -29,7 +29,7 @@ public class TextParsing {
     /**
      * the regex that matches one line with the parameters of a crossing
      */
-    private static final String CROSSING_REGEX = "^[0-9]+:[0|3-9|10]t$";
+    private static final String CROSSING_REGEX = "^[0-9]+:(0|[3456789]|10)t$";
     private static final String CROSSING = "crossing";
     private static final String CAR = "car";
     private static final String STREET = "street";
@@ -121,7 +121,6 @@ public class TextParsing {
             String[] streetParameter = extractNumbers(inputRow);
             streetParameters.add(stringArrayToInt(streetParameter));
         }
-        //TODO StartKnoten != Endknoten
         return streetParameters;
     }
 
@@ -152,12 +151,6 @@ public class TextParsing {
     private String removeLastChar(String stringToRemove) {
         return stringToRemove.substring(0, stringToRemove.length() - 1);
     }
-
-    private void validateEmptyFile(List<String> inputList, String file) {
-        if (inputList.isEmpty()) {
-            throw new SimulationException(ExceptionMessages.FILE_IS_EMPTY.format(file));
-        }
-    } //TODO nötig??
 
     private static String[] extractNumbers(String input) {
         String[] output = new String[5];

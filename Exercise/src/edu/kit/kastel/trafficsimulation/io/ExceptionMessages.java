@@ -47,7 +47,7 @@ public enum ExceptionMessages {
     /**
      * Error message if a file contains invalid strings
      */
-    INVALID_NUMBER_OF_STREETS("Error: The %d. node has an invalid number of streets."),
+    INVALID_NUMBER_OF_STREETS("Error: The node with ID: %d has an invalid number of streets."),
     /**
      * Error message if more cars try to be on one street than possible
      */
@@ -65,9 +65,13 @@ public enum ExceptionMessages {
      */
     DUPLICATED_CROSSING_ID("Error: The crossing ID %d exists more than once."),
     /**
-     * Error message if the ID of crossings exists more than only once
+     * Error message if the street has a node that doesn't exist
      */
     STREET_WITH_ILLEGAL_NODE("Error: The street %d has a node that doesn't exist."),
+    /**
+     * Error message if the car is located on a street that is not part of the simulation
+     */
+    CAR_WITH_ILLEGAL_STREET("Error: The car %d is located on a street that is not part of the simulation."),
     /**
      * Error message if the command is not found
      */
