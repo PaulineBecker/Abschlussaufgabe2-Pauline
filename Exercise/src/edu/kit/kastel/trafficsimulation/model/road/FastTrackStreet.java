@@ -18,6 +18,8 @@ public class FastTrackStreet extends Street implements Overtakeable {
      */
     private static final int OVERTAKE = 20;
     private static final int MIN_DISTANCE_TWO_CARS_IN_FRONT = 30;
+    private static final int TWO_CARS_IN_FRONT = 2;
+    private static final int CAR_INT_FRONT = 1;
 
     /**
      * Constructs a FastTrackStreet object with the specified parameters.
@@ -44,8 +46,8 @@ public class FastTrackStreet extends Street implements Overtakeable {
         int metersToGo  = length - car.getCurrentPosition();
         int distanceFirstCar = calculateDistance(currentCarIndex, cars);
         int distanceSecondCar = Street.NO_CAR_IN_FRONT;
-        if (currentCarIndex >= 2) {
-            distanceSecondCar = calculateDistance(currentCarIndex - 1, cars);
+        if (currentCarIndex >= TWO_CARS_IN_FRONT) {
+            distanceSecondCar = calculateDistance(currentCarIndex - CAR_INT_FRONT, cars);
         }
         if (distanceFirstCar == Street.NO_CAR_IN_FRONT || metersToGo < OVERTAKE) {
             return false;
@@ -54,7 +56,7 @@ public class FastTrackStreet extends Street implements Overtakeable {
                 car.setCurrentPosition(car.getCurrentPosition() + OVERTAKE);
                 car.setRemainingMeters(car.getRemainingMeters() - OVERTAKE);
                 cars.remove(currentCarIndex);
-                cars.add(currentCarIndex - 1, car);
+                cars.add(currentCarIndex - CAR_INT_FRONT, car);
                 car.drive(calculateDistance(cars.indexOf(car), cars), length, car.getRemainingMeters());
                 return true;
             }

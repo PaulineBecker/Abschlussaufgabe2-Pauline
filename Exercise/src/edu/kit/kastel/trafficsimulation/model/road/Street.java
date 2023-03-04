@@ -149,13 +149,6 @@ public class Street implements Updatable {
         return intStartNode;
     }
 
-    /**
-     * Sets the start node ID of the street.
-     * @param intStartNode The start node ID of the street to set.
-     */
-    public void setIntStartNode(int intStartNode) {
-        this.intStartNode = intStartNode;
-    }
 
     /**
      * Returns the end node ID of the street.
@@ -166,43 +159,11 @@ public class Street implements Updatable {
     }
 
     /**
-     * Sets the end node of this street to the specified integer value.
-     * @param intEndNode the integer value representing the end node of this street
-     */
-    public void setIntEndNode(int intEndNode) {
-        this.intEndNode = intEndNode;
-    }
-
-    /**
      * Returns the length of this street.
      * @return the length of this street
      */
     public int getLength() {
         return length;
-    }
-
-    /**
-     * Sets the length of this street to the specified integer value.
-     * @param length the integer value representing the length of this street
-     */
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    /**
-     * Returns the speed limit of this street.
-     * @return the speed limit of this street
-     */
-    public int getSpeedLimit() {
-        return speedLimit;
-    }
-
-    /**
-     * Sets the speed limit of this street to the specified integer value.
-     * @param speedLimit the integer value representing the speed limit of this street
-     */
-    public void setSpeedLimit(int speedLimit) {
-        this.speedLimit = speedLimit;
     }
 
     /**
@@ -219,14 +180,6 @@ public class Street implements Updatable {
      */
     public LinkedList<Car> getCars() {
         return cars;
-    }
-
-    /**
-     * Sets the list of cars currently on this street to the specified LinkedList of Car objects.
-     * @param cars the LinkedList of Car objects representing the list of cars currently on this street
-     */
-    public void setCars(LinkedList<Car> cars) {
-        this.cars = cars;
     }
 
     /**

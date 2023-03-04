@@ -197,7 +197,7 @@ public class StreetNetwork implements Updatable {
             int streetPosition = street.getLength();
             for (int i = 0; i < cars.size(); i++) {
                 if (cars.get(i).getCurrentStreet() == street.getStreetID()) {
-                    if (streetPosition >= 0) {
+                    if (streetPosition >= Car.BEGINNING_OF_STREET) {
                         cars.get(i).setCurrentPosition(streetPosition);
                         street.getCars().add(cars.get(i));
                         streetPosition -= Street.SAVE_DISTANCE;

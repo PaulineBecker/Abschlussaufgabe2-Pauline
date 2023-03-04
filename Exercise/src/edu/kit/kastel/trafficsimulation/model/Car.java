@@ -15,9 +15,13 @@ import edu.kit.kastel.trafficsimulation.model.road.Street;
  */
 public class Car implements Updatable {
     /**
-     * status of the car if it didn't drive and start stauts of the position before setting car on street
+     * status of the car if it didn't drive and start status of the position before setting car on street
      */
     public static final int NO_DRIVE = -1;
+    /**
+     * the beginning of a street is position 0 meters
+     */
+    public static final int BEGINNING_OF_STREET = 0;
     private static final int START_SPEED = 0;
     private static final int START_DESIRED_STREET = 0;
     private static final int NO_REMAINING_METERS = 0;
@@ -35,6 +39,7 @@ public class Car implements Updatable {
      */
     private int remainingMeters;
     private boolean isMoved;
+    private boolean isDriven;
 
     /**
      * Creates a new Car object with the given parameters.
@@ -54,6 +59,7 @@ public class Car implements Updatable {
         this.oldPosition = NO_DRIVE;
         this.remainingMeters = NO_REMAINING_METERS;
         this.isMoved = false;
+        this.isDriven = false;
     }
 
     /**
@@ -127,6 +133,7 @@ public class Car implements Updatable {
                 currentPosition = currentPosition + (distance - Street.SAVE_DISTANCE);
             }
         }
+        validateDriveForward();
         isMoved = true;
     }
 
@@ -135,8 +142,9 @@ public class Car implements Updatable {
      */
     public void resetMoveParameters() {
         isMoved = false;
-        remainingMeters = 0;
-        oldPosition = -1;
+        isDriven = false;
+        remainingMeters = NO_REMAINING_METERS;
+        oldPosition = NO_DRIVE;
     }
 
     /**
@@ -150,9 +158,10 @@ public class Car implements Updatable {
      * @return {@code true} if the vehicle successfully turns onto the new street, {@code false} otherwise
      */
     public boolean turn(Street newStreet) {
-        if ((newStreet.getCars().isEmpty() || newStreet.getCars().getLast().getCurrentPosition() >= 10)
-                && remainingMeters > 0) {
-            currentPosition = 0;
+        if ((newStreet.getCars().isEmpty()
+                || newStreet.getCars().getLast().getCurrentPosition() >= Street.SAVE_DISTANCE)
+                && remainingMeters > NO_REMAINING_METERS) {
+            currentPosition = BEGINNING_OF_STREET;
             currentStreet = newStreet.getStreetID();
             return true;
         }
@@ -164,27 +173,9 @@ public class Car implements Updatable {
      * @param hasOvertaken true if car has overtaken, otherwise false
      */
     public void resetSpeedInTraffic(boolean hasOvertaken) {
-        if (oldPosition == currentPosition && !hasOvertaken) { //TODO das reine Abiegen zählt nicht als Bewegung checken
+        if (!hasOvertaken && !isDriven) {
             currentSpeed = START_SPEED;
         }
-    }
-
-    /**
-     * Returns the acceleration of the car.
-     * @return The acceleration of the car
-     */
-
-    public int getAcceleration() {
-        return acceleration;
-    }
-
-    /**
-     * Sets the acceleration of the car.
-     * @param acceleration The new acceleration of the car
-     */
-
-    public void setAcceleration(int acceleration) {
-        this.acceleration = acceleration;
     }
 
     /**
@@ -197,15 +188,6 @@ public class Car implements Updatable {
     }
 
     /**
-     * Sets the desired street of the car.
-     * @param desiredStreet The new desired street of the car
-     */
-
-    public void setDesiredStreet(int desiredStreet) {
-        this.desiredStreet = desiredStreet;
-    }
-
-    /**
      * Returns the current speed of the car
      * @return the current speed of the car
      */
@@ -213,14 +195,6 @@ public class Car implements Updatable {
         return currentSpeed;
     }
 
-    /**
-     * Sets the current speed of the car to the specified value
-     * @param currentSpeed the new current speed of the car
-     */
-
-    public void setCurrentSpeed(int currentSpeed) {
-        this.currentSpeed = currentSpeed;
-    }
 
     /**
      * Returns the current street that the car is on
@@ -229,15 +203,6 @@ public class Car implements Updatable {
 
     public int getCurrentStreet() {
         return currentStreet;
-    }
-
-    /**
-     * Sets the current street of the car to the specified value
-     * @param currentStreet the new current street of the car
-     */
-
-    public void setCurrentStreet(int currentStreet) {
-        this.currentStreet = currentStreet;
     }
 
     /**
@@ -291,11 +256,13 @@ public class Car implements Updatable {
         this.remainingMeters = remainingMeters;
     }
 
+
     /**
-     * Returns the old position of the car before moving
-     * @return the old position of the car
+     * checks if the car is Driven before turning or overtaking
      */
-    public int getOldPosition() {
-        return oldPosition;
+    private void validateDriveForward() {
+        if (oldPosition != currentPosition) {
+            isDriven = true;
+        }
     }
 }
