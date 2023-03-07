@@ -52,7 +52,7 @@ public class FastTrackStreet extends Street implements Overtakeable {
         if (distanceFirstCar == Street.NO_CAR_IN_FRONT || metersToGo < OVERTAKE) {
             return false;
         } else {
-            if (distanceSecondCar == Street.NO_CAR_IN_FRONT || distanceSecondCar >= MIN_DISTANCE_TWO_CARS_IN_FRONT) {
+            if (distanceSecondCar == Street.NO_CAR_IN_FRONT || distanceSecondCar >= OVERTAKE) {
                 car.setCurrentPosition(car.getCurrentPosition() + OVERTAKE);
                 car.setRemainingMeters(car.getRemainingMeters() - OVERTAKE);
                 cars.remove(currentCarIndex);
@@ -73,7 +73,7 @@ public class FastTrackStreet extends Street implements Overtakeable {
             if (!currentCar.isMoved()) {
                 currentCar.accelerate(speedLimit);
                 currentCar.drive(calculateDistance(i, cars), length, currentCar.getCurrentSpeed());
-                if (!overtakeVehicle(currentCar)) { //TODO nur wenn Overtake noch nicht dann turnCar aber andersrum??
+                if (!overtakeVehicle(currentCar)) {
                     if (!turnCar(currentCar)) {
                         i++;
                     }

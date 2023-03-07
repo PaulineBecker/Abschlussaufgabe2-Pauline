@@ -85,10 +85,6 @@ public class Simulation implements Simulatable {
     public String simulate(int numberOfTicks) {
         for (int i = 0; i < numberOfTicks; i++) {
             streetNetwork.update();
-            /*System.out.println("Tick: " + i);
-            for (int j = 0; j <= 29; j++) {
-                System.out.println(showCar(j));
-            }*/
         }
 
         return Messages.READY.format();
