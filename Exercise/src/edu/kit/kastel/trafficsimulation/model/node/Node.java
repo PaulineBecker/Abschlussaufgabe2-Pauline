@@ -3,7 +3,7 @@ package edu.kit.kastel.trafficsimulation.model.node;
 import edu.kit.kastel.trafficsimulation.exception.SimulationException;
 import edu.kit.kastel.trafficsimulation.io.ExceptionMessages;
 import edu.kit.kastel.trafficsimulation.model.Updatable;
-import edu.kit.kastel.trafficsimulation.model.road.Street;
+import edu.kit.kastel.trafficsimulation.model.street.Street;
 
 import java.util.ArrayList;
 import java.util.List;

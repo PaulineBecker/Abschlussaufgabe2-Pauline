@@ -2,7 +2,7 @@ package edu.kit.kastel.trafficsimulation.model;
 
 import edu.kit.kastel.trafficsimulation.io.Messages;
 import edu.kit.kastel.trafficsimulation.model.node.Node;
-import edu.kit.kastel.trafficsimulation.model.road.Street;
+import edu.kit.kastel.trafficsimulation.model.street.Street;
 
 /**
  * models a car in the traffic simulation

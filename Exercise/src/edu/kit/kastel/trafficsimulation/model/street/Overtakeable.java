@@ -1,4 +1,4 @@
-package edu.kit.kastel.trafficsimulation.model.road;
+package edu.kit.kastel.trafficsimulation.model.street;
 
 import edu.kit.kastel.trafficsimulation.model.Car;
 

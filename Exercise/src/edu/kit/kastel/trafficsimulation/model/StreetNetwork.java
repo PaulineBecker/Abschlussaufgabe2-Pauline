@@ -6,8 +6,8 @@ import edu.kit.kastel.trafficsimulation.io.TextParsing;
 import edu.kit.kastel.trafficsimulation.model.node.Intersection;
 import edu.kit.kastel.trafficsimulation.model.node.Node;
 import edu.kit.kastel.trafficsimulation.model.node.Roundabout;
-import edu.kit.kastel.trafficsimulation.model.road.FastTrackStreet;
-import edu.kit.kastel.trafficsimulation.model.road.Street;
+import edu.kit.kastel.trafficsimulation.model.street.FastTrackStreet;
+import edu.kit.kastel.trafficsimulation.model.street.Street;
 
 import java.util.ArrayList;
 import java.util.HashSet;

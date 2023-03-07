@@ -17,7 +17,7 @@ public enum Messages {
      * current position of the car (int)
      *
      */
-    CAR_POSITION("Car %s on Street %s with speed %s and position %s"),
+    CAR_POSITION("Car %s on street %s with speed %s and position %s"),
     /**
      * The Message printed when the input files are read correctly or the simulation is done correctly
      */
