@@ -20,16 +20,16 @@ public class TextParsing {
      * the regex that matches one line with the parameters of a street
      */
 
-    private static final String STREET_REGEX = "^[0-9]+-->[0-9]+:(?:10|[1-9][0-9]{1,3}|10000)m,"
-            + "[1-2]x,(?:[5-9]|[1-3][0-9]|40)max$";
+    private static final String STREET_REGEX = "^[0-9]+-->[0-9]+:0*(?:10|[1-9][0-9]{1,3}|10000)m,"
+            + "0*[1-2]x,0*(?:[5-9]|[1-3][0-9]|40)max$";
     /**
      * the regex that matches one line with the parameters of a car
      */
-    private static final String CAR_REGEX = "^\\d+,\\d+,(?:20|2[1-9]|3[0-9]|40),(?:[1-9]|10)$";
+    private static final String CAR_REGEX = "^\\d+,\\d+,0*(?:20|2[1-9]|3[0-9]|40),0*(?:[1-9]|10)$";
     /**
      * the regex that matches one line with the parameters of a crossing
      */
-    private static final String CROSSING_REGEX = "^[0-9]+:(0|[3456789]|10)t$";
+    private static final String CROSSING_REGEX = "^[0-9]+:0*(0|[3456789]|10)t$";
     private static final String CROSSING = "crossing";
     private static final String CAR = "car";
     private static final String STREET = "street";

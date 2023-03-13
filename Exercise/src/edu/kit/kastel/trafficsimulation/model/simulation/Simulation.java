@@ -86,7 +86,6 @@ public class Simulation implements Simulatable {
         for (int i = 0; i < numberOfTicks; i++) {
             streetNetwork.update();
         }
-
         return Messages.READY.format();
     }
 
